@@ -17,9 +17,10 @@ public:
 	Game(sf::Vector2i amountOfTiles = { 10,10 }, sf::Vector2f sizeOfTiles = { 50.0f, 50.0f });
 
 	void run();
-	void update();
-	void highlightTile();
+	void update(int);
 	void draw();
+
+	int highlightTile();
 };
 
 #endif

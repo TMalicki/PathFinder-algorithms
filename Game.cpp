@@ -12,28 +12,38 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		
-		highlightTile();
+		int chosenTile = highlightTile();
+
+		update(chosenTile);
 		draw();
 	}
 }
 
-void Game::update()
+void Game::update(int chosenTile)
 {
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 			window->close();
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				if (map.getFinishTileExistance() == false) map.setFinishTile(chosenTile);
+				else if (map.getStartTileExistance() == false) map.setStartTile(chosenTile);
+			}
+		}
 	}
 }
 
-void Game::highlightTile()
+int Game::highlightTile()
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	std::vector<Tile>* board = &(this->map.getMap());
+	std::vector<Tile>* board = &(this->map.getNormalTiles());
 	sf::FloatRect tileBounds;
 
 	int boardCounter = board->size();
+	int chosenTile = 0;
 	while (boardCounter--)
 	{
 		tileBounds = (*board)[boardCounter].getTile().getGlobalBounds();
@@ -42,21 +52,26 @@ void Game::highlightTile()
 			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
 		{
 			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
+			chosenTile = boardCounter;
+			//setFinish(boardCounter);
 		}
 		else
 		{
 			(*board)[boardCounter].getTile().setFillColor(sf::Color::White);
 		}
 	}
+	return chosenTile;
 }
 
 void Game::draw()
 {
 	window->clear(sf::Color::White);
-	for (int i = 0; i < map.getMap().size(); i++)
+	for (int i = 0; i < map.getNormalTiles().size(); i++)
 	{
-		window->draw(map.getMap()[i].getTile());
+		window->draw(map.getNormalTiles()[i].getTile());
 	}
+	if(map.getFinishTileExistance()) window->draw(map.getFinishTile().getTile());
+	if (map.getStartTileExistance()) window->draw(map.getStartTile().getTile());
 	window->display();
 }
 
