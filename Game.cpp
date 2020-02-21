@@ -6,20 +6,25 @@ Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles) : map(amountOfT
 	
 	window->setFramerateLimit(60);
 	window->setTitle("PathFinder");
+
+	closeEditor = false;
 }
 
 void Game::run()
 {
 	while (window->isOpen())
 	{
-		int chosenTile = highlightTile();
+		//int chosenTile;
+
+//		if(closeEditor == false)
+		sf::Vector2f chosenTile = highlightTile();
 
 		update(chosenTile);
 		draw();
 	}
 }
 
-void Game::update(int chosenTile)
+void Game::update(sf::Vector2f chosenTile)
 {
 	while (window->pollEvent(event))
 	{
@@ -27,23 +32,30 @@ void Game::update(int chosenTile)
 			window->close();
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
-			if (event.mouseButton.button == sf::Mouse::Left)
+			if (event.mouseButton.button == sf::Mouse::Left && closeEditor == false)
 			{
 				if (map.getFinishTileExistance() == false) map.setFinishTile(chosenTile);
 				else if (map.getStartTileExistance() == false) map.setStartTile(chosenTile);
+				else if (map.getObstacleTiles().size() < map.getRestOfTiles()) map.setObstacleTiles(chosenTile);
+			}
+			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
+			{
+				closeEditor = true;
+				cout << "Exit\n";
 			}
 		}
 	}
 }
 
-int Game::highlightTile()
+sf::Vector2f Game::highlightTile()
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile>* board = &(this->map.getNormalTiles());
 	sf::FloatRect tileBounds;
 
 	int boardCounter = board->size();
-	int chosenTile = 0;
+	sf::Vector2f chosenTile;
+
 	while (boardCounter--)
 	{
 		tileBounds = (*board)[boardCounter].getTile().getGlobalBounds();
@@ -52,8 +64,7 @@ int Game::highlightTile()
 			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
 		{
 			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
-			chosenTile = boardCounter;
-			//setFinish(boardCounter);
+			chosenTile = (*board)[boardCounter].getTile().getPosition();
 		}
 		else
 		{
@@ -66,12 +77,22 @@ int Game::highlightTile()
 void Game::draw()
 {
 	window->clear(sf::Color::White);
+
+
 	for (int i = 0; i < map.getNormalTiles().size(); i++)
 	{
 		window->draw(map.getNormalTiles()[i].getTile());
 	}
-	if(map.getFinishTileExistance()) window->draw(map.getFinishTile().getTile());
+	if (map.getFinishTileExistance()) window->draw(map.getFinishTile().getTile());
 	if (map.getStartTileExistance()) window->draw(map.getStartTile().getTile());
+
+	vector<Tile> temp = map.getObstacleTiles();
+	for (int i = 0; i < temp.size(); i++)
+	{
+		if (temp.size()) window->draw(temp[i].getTile());
+	}
+
+
 	window->display();
 }
 

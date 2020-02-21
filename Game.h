@@ -12,15 +12,15 @@ private:
 	sf::Event event;
 
 	Map map;
-	
+	bool closeEditor;
 public:
 	Game(sf::Vector2i amountOfTiles = { 10,10 }, sf::Vector2f sizeOfTiles = { 50.0f, 50.0f });
 
 	void run();
-	void update(int);
+	void update(sf::Vector2f);
 	void draw();
 
-	int highlightTile();
+	sf::Vector2f highlightTile();
 };
 
 #endif

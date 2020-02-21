@@ -4,7 +4,7 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 {
 	Tile temp(sizeOfTiles);
 	sf::Vector2f distance = temp.getSize();
-	sf::Vector2f coord = temp.getCoord();
+	sf::Vector2f coord = temp.getOrigin();
 
 	for (int i = 0; i < numberOfTiles.y; i++)
 	{
@@ -19,20 +19,48 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 	startTileExist = false;
 }
 
-void Map::setFinishTile(int i)
+/// MAKE FUNCTION FROM THE SAME LINES IN BELOVED FUNCTIONS ------------------------------------------------------------------------------------
+void Map::setFinishTile(sf::Vector2f coord)
 {
-	finishTile = normalTile[i]; 
-	finishTile.getTile().setFillColor(sf::Color::Red);
-	normalTile.erase(normalTile.begin() + i);
+	for (int i = 0; i < normalTile.size() && finishTileExist == false; i++)
+	{
+		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		{
+			finishTile = normalTile[i];
+			finishTile.getTile().setFillColor(sf::Color::Red);
+			normalTile.erase(normalTile.begin() + i);
 
-	finishTileExist = true;
+			finishTileExist = true;
+		}
+	}
 }
 
-void Map::setStartTile(int i)
+void Map::setStartTile(sf::Vector2f coord)
 {
-	startTile = normalTile[i];
-	startTile.getTile().setFillColor(sf::Color::Blue);
-	normalTile.erase(normalTile.begin() + i);
+	for (int i = 0; i < normalTile.size() && startTileExist == false; i++)
+	{
+		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		{
+			startTile = normalTile[i];
+			startTile.getTile().setFillColor(sf::Color::Green);
+			normalTile.erase(normalTile.begin() + i);
 
-	startTileExist = true;
+			startTileExist = true;
+		}
+	}
 }
+
+void Map::setObstacleTiles(sf::Vector2f coord)
+{
+	int startingSize = obstacleTile.size();
+	for (int i = 0; i < normalTile.size() && obstacleTile.size() == startingSize; i++)
+	{
+		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		{
+			obstacleTile.push_back(normalTile[i]);
+			obstacleTile.back().getTile().setFillColor(sf::Color::Black);
+			normalTile.erase(normalTile.begin() + i);
+		}
+	}
+}
+/// -----------------------------------------------------------------------------------------------------------------------
