@@ -11,6 +11,8 @@ private:
 	sf::RectangleShape tile;
 	float thickness;
 
+	Tile* parent;
+
 public:
 	Tile(sf::Vector2f size = { 50.f ,50.f });
 

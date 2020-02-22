@@ -20,7 +20,6 @@ private:
 	
 	bool finishTileExist;
 	bool startTileExist;
-	//bool obstacleTileExist;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
 
@@ -40,7 +39,6 @@ public:
 	/// -------------------------
 	void setObstacleTiles(sf::Vector2f);
 	vector<Tile>& getObstacleTiles() { return obstacleTile; }
-	//bool getObstacleTileExistance() { return obstacleTileExist; }
 
 	/// -------------------------
 	int getRestOfTiles() { return normalTile.size(); }

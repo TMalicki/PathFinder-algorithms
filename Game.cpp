@@ -3,22 +3,21 @@
 Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles) : map(amountOfTiles, sizeOfTiles)
 {
 	window = new sf::RenderWindow(sf::VideoMode(amountOfTiles.x * sizeOfTiles.x, amountOfTiles.y * sizeOfTiles.y), "CarAvoid");
-	
-	window->setFramerateLimit(60);
 	window->setTitle("PathFinder");
 
 	closeEditor = false;
+	isKeyPressed = false;
 }
 
 void Game::run()
 {
 	while (window->isOpen())
 	{
-		//int chosenTile;
+		dt = clock.restart().asSeconds();
 
 //		if(closeEditor == false)
-		sf::Vector2f chosenTile = highlightTile();
 
+		sf::Vector2f chosenTile = highlightTile();
 		update(chosenTile);
 		draw();
 	}
@@ -26,12 +25,20 @@ void Game::run()
 
 void Game::update(sf::Vector2f chosenTile)
 {
+	holdButton();
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 			window->close();
+
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
+			isKeyPressed = true;
+		}
+
+		if (event.type == sf::Event::MouseButtonReleased)
+		{
+			isKeyPressed = false;
 			if (event.mouseButton.button == sf::Mouse::Left && closeEditor == false)
 			{
 				if (map.getFinishTileExistance() == false) map.setFinishTile(chosenTile);
@@ -41,10 +48,25 @@ void Game::update(sf::Vector2f chosenTile)
 			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
 			{
 				closeEditor = true;
-				cout << "Exit\n";
+				cout << "Exit.\n";
+				cout << "Try to make some changes to MAP class";
 			}
 		}
 	}
+
+	if (holdMouseButton >= 1.5 && map.getStartTileExistance() == true)
+	{
+		if (map.getObstacleTiles().size() < map.getRestOfTiles()) map.setObstacleTiles(chosenTile);
+	}
+}
+
+void Game::holdButton()
+{
+	if (isKeyPressed)
+	{
+		holdMouseButton += dt;
+	}
+	else holdMouseButton = 0.0;
 }
 
 sf::Vector2f Game::highlightTile()
@@ -53,8 +75,8 @@ sf::Vector2f Game::highlightTile()
 	std::vector<Tile>* board = &(this->map.getNormalTiles());
 	sf::FloatRect tileBounds;
 
-	int boardCounter = board->size();
 	sf::Vector2f chosenTile;
+	int boardCounter = board->size();
 
 	while (boardCounter--)
 	{
@@ -65,6 +87,9 @@ sf::Vector2f Game::highlightTile()
 		{
 			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
 			chosenTile = (*board)[boardCounter].getTile().getPosition();
+
+			// building up color changing while holding mouse button
+			if (holdMouseButton > 0.6 && map.getStartTileExistance()) (*board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
 		}
 		else
 		{
@@ -78,7 +103,6 @@ void Game::draw()
 {
 	window->clear(sf::Color::White);
 
-
 	for (int i = 0; i < map.getNormalTiles().size(); i++)
 	{
 		window->draw(map.getNormalTiles()[i].getTile());
@@ -91,7 +115,6 @@ void Game::draw()
 	{
 		if (temp.size()) window->draw(temp[i].getTile());
 	}
-
 
 	window->display();
 }
