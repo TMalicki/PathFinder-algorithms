@@ -20,6 +20,7 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 }
 
 /// MAKE FUNCTION FROM THE SAME LINES IN BELOVED FUNCTIONS ------------------------------------------------------------------------------------
+
 void Map::setFinishTile(sf::Vector2f coord)
 {
 	for (int i = 0; i < normalTile.size() && finishTileExist == false; i++)
@@ -60,6 +61,31 @@ void Map::setObstacleTiles(sf::Vector2f coord)
 			obstacleTile.push_back(normalTile[i]);
 			obstacleTile.back().getTile().setFillColor(sf::Color::Black);
 			normalTile.erase(normalTile.begin() + i);
+		}
+	}
+}
+void Map::deleteTile(sf::Vector2f coord)
+{
+	/// try switch maybe?
+	sf::Vector2f tempPos = finishTile.getPosition();
+	if (coord.x == tempPos.x && coord.y == tempPos.y)
+	{
+		finishTileExist = false;
+		/// delete finishTile; /// maybe with pointer
+	}
+	tempPos = startTile.getPosition();
+	if (coord.x == tempPos.x && coord.y == tempPos.y)
+	{
+		startTileExist = false;
+		/// delete startFile; /// maybe with pointer
+	}
+	
+	for (int i = 0; i < obstacleTile.size(); i++)
+	{
+		tempPos = obstacleTile[i].getPosition();
+		if (coord.x == tempPos.x && coord.y == tempPos.y)
+		{
+			obstacleTile.erase(obstacleTile.begin() + i);
 		}
 	}
 }

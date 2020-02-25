@@ -1,34 +1,74 @@
-#include "Game.h"
+#include "Editor.h"
 
-Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles)
+Editor::Editor(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles) : map(amountOfTiles, sizeOfTiles)
 {
-	window = new sf::RenderWindow(sf::VideoMode(amountOfTiles.x * sizeOfTiles.x, amountOfTiles.y * sizeOfTiles.y), "PathFinder");
-	editor = new Editor(sf::Vector2i(10, 10), sf::Vector2f(50.f, 50.f));
+	closeEditor = false;
+	isKeyPressed = false;
+
+	dt = 0.0;
+	holdMouseButton = 0.0;
+	isKeyPressed = false;
 }
 
-void Game::run()
+void Editor::run(sf::RenderWindow* window, sf::Event& event)
 {
-	while (window->isOpen())
+	while (closeEditor == false)
 	{
-		editor->run(window, event);
-		update();
+		dt = clock.restart().asSeconds();
+
+		sf::Vector2f chosenTile = highlightTile(window);
+		update(window, event, chosenTile);
+		draw(window);
 	}
 }
 
-void Game::update()
+void Editor::update(sf::RenderWindow* window, sf::Event& event, sf::Vector2f chosenTile)
 {
+	holdButton();
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 			window->close();
+
 		if (event.type == sf::Event::KeyPressed)
 		{
-			if (event.key.code == sf::Keyboard::Escape) window->close();
+			if (event.key.code == sf::Keyboard::Escape)
+			{
+				closeEditor = true;
+				cout << "Exit.\n";
+				cout << "Try to make some changes to MAP class";
+			}
+		}
+
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			isKeyPressed = true;
+		}
+
+		if (event.type == sf::Event::MouseButtonReleased)
+		{
+			isKeyPressed = false;
+			if (event.mouseButton.button == sf::Mouse::Left && closeEditor == false)
+			{
+				if (map.getFinishTileExistance() == false) map.setFinishTile(chosenTile);
+				else if (map.getStartTileExistance() == false) map.setStartTile(chosenTile);
+				else if (map.getObstacleTiles().size() < map.getRestOfTiles()) map.setObstacleTiles(chosenTile);
+			}
+
+			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
+			{
+				/// delete tiles from map
+			}
 		}
 	}
+
+	if (holdMouseButton >= 1.5 && map.getStartTileExistance() == true)
+	{
+		if (map.getObstacleTiles().size() < map.getRestOfTiles()) map.setObstacleTiles(chosenTile);
+	}
 }
-/*
-void Game::draw()
+
+void Editor::draw(sf::RenderWindow* window)
 {
 	window->clear(sf::Color::White);
 
@@ -47,12 +87,8 @@ void Game::draw()
 
 	window->display();
 }
-*/
 
-
-///
-/*
-void Game::holdButton()
+void Editor::holdButton()
 {
 	if (isKeyPressed)
 	{
@@ -60,10 +96,8 @@ void Game::holdButton()
 	}
 	else holdMouseButton = 0.0;
 }
-*/
-///
-/*
-sf::Vector2f Game::highlightTile()
+
+sf::Vector2f Editor::highlightTile(sf::RenderWindow* window)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile>* board = &(this->map.getNormalTiles());
@@ -92,6 +126,3 @@ sf::Vector2f Game::highlightTile()
 	}
 	return chosenTile;
 }
-*/
-
-
