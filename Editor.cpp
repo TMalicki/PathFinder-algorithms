@@ -84,6 +84,23 @@ sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile>* board = &(map->getNormalTiles());
+
+	if (map->getFinishTileExistance())
+	{
+		board->push_back(map->getFinishTile());
+	}
+	if (map->getStartTileExistance())
+	{
+		board->push_back(map->getStartTile());
+	}
+	if (map->getObstacleTiles().size() > 0)
+	{
+		for (int i = 0; i < map->getObstacleTiles().size(); i++)
+		{
+			board->push_back(map->getObstacleTiles()[i]);
+
+		}
+	}
 	sf::FloatRect tileBounds;
 
 	sf::Vector2f chosenTile;
