@@ -11,16 +11,17 @@ Editor::Editor(Map* map)
 	isKeyPressed = false;
 }
 
-void Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
+bool Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
 {
-	while (closeEditor == false)
-	{
+	//while (closeEditor == false)
+	//{
 		dt = clock.restart().asSeconds();
 
 		sf::Vector2f chosenTile = highlightTile(window, map);
 		update(window, event, map, chosenTile);
-		draw(window, map);
-	}
+	//	map->draw(window);
+	//}
+	return closeEditor;
 }
 
 void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile)
@@ -59,6 +60,7 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
 			{
 				/// delete tiles from map
+				map->deleteTile(chosenTile);
 			}
 		}
 	}
@@ -67,27 +69,6 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 	{
 		if (map->getObstacleTiles().size() < map->getRestOfTiles()) map->setObstacleTiles(chosenTile);
 	}
-}
-
-void Editor::draw(sf::RenderWindow* window, Map* map)
-{
-	window->clear(sf::Color::White);
-
-	for (int i = 0; i < map->getNormalTiles().size(); i++)
-	{
-		window->draw(map->getNormalTiles()[i].getTile());
-	}
-	if (map->getFinishTileExistance()) window->draw(map->getFinishTile().getTile());
-	if (map->getStartTileExistance()) window->draw(map->getStartTile().getTile());
-
-	vector<Tile> temp = map->getObstacleTiles();
-	for (int i = 0; i < temp.size(); i++)
-	{
-		if (temp.size()) window->draw(temp[i].getTile());
-	}
-
-	window->display();
-
 }
 
 void Editor::holdButton()

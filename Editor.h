@@ -19,11 +19,10 @@ private:
 	Map* map;
 public:
 	Editor(Map* map);
-	void run(sf::RenderWindow* window, sf::Event& event, Map* map);
+	bool run(sf::RenderWindow* window, sf::Event& event, Map* map);
 	//Map& getMap() { return map; }
 
 	void update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile);
-	void draw(sf::RenderWindow* window, Map* map);
 
 	void holdButton();
 	sf::Vector2f highlightTile(sf::RenderWindow* window, Map* map);

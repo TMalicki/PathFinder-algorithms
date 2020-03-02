@@ -11,10 +11,17 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		editor->run(window, event, map);
-		algorithm = new Algorithm(*map);
-		algorithm->Begin();
-		update();
+		if (!(editor->run(window, event, map))) 
+		{
+
+		}
+		else
+		{
+			algorithm = new Algorithm(*map);
+			algorithm->Begin();
+			update();
+		}
+
 		draw();
 	}
 }
@@ -39,20 +46,20 @@ void Game::draw()
 
 	for (int i = 0; i < map->getNormalTiles().size(); i++)
 		window->draw(map->getNormalTiles()[i].getTile());
-	/*
-	for (int i = 0; i < map.getNormalTiles().size(); i++)
+	
+	for (int i = 0; i < map->getNormalTiles().size(); i++)
 	{
-		window->draw(map.getNormalTiles()[i].getTile());
+		window->draw(map->getNormalTiles()[i].getTile());
 	}
-	if (map.getFinishTileExistance()) window->draw(map.getFinishTile().getTile());
-	if (map.getStartTileExistance()) window->draw(map.getStartTile().getTile());
+	if (map->getFinishTileExistance()) window->draw(map->getFinishTile().getTile());
+	if (map->getStartTileExistance()) window->draw(map->getStartTile().getTile());
 
-	vector<Tile> temp = map.getObstacleTiles();
+	vector<Tile> temp = map->getObstacleTiles();
 	for (int i = 0; i < temp.size(); i++)
 	{
 		if (temp.size()) window->draw(temp[i].getTile());
 	}
-	*/
+	
 	window->display();
 }
 

@@ -80,13 +80,17 @@ void Map::deleteTile(sf::Vector2f coord)
 		/// delete startFile; /// maybe with pointer
 	}
 	
-	for (int i = 0; i < obstacleTile.size(); i++)
+	if (obstacleTile.size() > 0)
 	{
-		tempPos = obstacleTile[i].getPosition();
-		if (coord.x == tempPos.x && coord.y == tempPos.y)
+		for (int i = 0; i < obstacleTile.size(); i++)
 		{
-			obstacleTile.erase(obstacleTile.begin() + i);
+			tempPos = obstacleTile[i].getPosition();
+			if (coord.x == tempPos.x && coord.y == tempPos.y)
+			{
+				obstacleTile.erase(obstacleTile.begin() + i);
+			}
 		}
 	}
 }
+
 /// -----------------------------------------------------------------------------------------------------------------------

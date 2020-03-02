@@ -45,6 +45,7 @@ public:
 	int getRestOfTiles() { return normalTile.size(); }
 
 	void deleteTile(sf::Vector2f);
+
 	//void setTile(Tile tile, sf::Vector2f coord);
 	//void setTile(vector<Tile> tile, sf::Vector2f coord);
 };
