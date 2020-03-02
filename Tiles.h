@@ -22,6 +22,7 @@ public:
 	sf::RectangleShape& getTile() { return tile; }
 	sf::Vector2f getOrigin() { return tile.getOrigin(); }
 	sf::Vector2f getPosition() { return tile.getPosition(); }
+	void setColor(sf::Color color) { tile.setFillColor(color); }
 };
 
 

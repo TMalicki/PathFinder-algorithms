@@ -11,6 +11,7 @@ using namespace std;
 class Map 
 {
 private:
+	//vector<Tile> allTile;
 	vector<Tile> normalTile;
 	vector<Tile> obstacleTile;
 	Tile finishTile;

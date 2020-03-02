@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Editor.h"
+#include "Map.h"
+#include "Algorithm.h"
 
 class Game
 {
@@ -11,8 +13,9 @@ private:
 	sf::RenderWindow* window;
 	sf::Event event;
 
-
-	Editor*editor;
+	Algorithm* algorithm;
+	Editor* editor;
+	Map* map;
 	///bool closeEditor;
 
 	///float dt; 
@@ -22,7 +25,8 @@ public:
 
 	void run();
 	void update();
-	///void draw();
+
+	void draw();
 
 	///void holdButton();
 	///sf::Vector2f highlightTile();

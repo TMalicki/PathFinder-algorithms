@@ -1,17 +1,21 @@
 #include "Game.h"
 
-Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles)
+Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles) 
 {
 	window = new sf::RenderWindow(sf::VideoMode(amountOfTiles.x * sizeOfTiles.x, amountOfTiles.y * sizeOfTiles.y), "PathFinder");
-	editor = new Editor(sf::Vector2i(10, 10), sf::Vector2f(50.f, 50.f));
+	map = new Map(sf::Vector2i(10, 10), sf::Vector2f(50.f, 50.f));
+	editor = new Editor(map);
 }
 
 void Game::run()
 {
 	while (window->isOpen())
 	{
-		editor->run(window, event);
+		editor->run(window, event, map);
+		algorithm = new Algorithm(*map);
+		algorithm->Begin();
 		update();
+		draw();
 	}
 }
 
@@ -27,11 +31,15 @@ void Game::update()
 		}
 	}
 }
-/*
+
 void Game::draw()
 {
 	window->clear(sf::Color::White);
+	/// draw
 
+	for (int i = 0; i < map->getNormalTiles().size(); i++)
+		window->draw(map->getNormalTiles()[i].getTile());
+	/*
 	for (int i = 0; i < map.getNormalTiles().size(); i++)
 	{
 		window->draw(map.getNormalTiles()[i].getTile());
@@ -44,10 +52,10 @@ void Game::draw()
 	{
 		if (temp.size()) window->draw(temp[i].getTile());
 	}
-
+	*/
 	window->display();
 }
-*/
+
 
 
 ///
