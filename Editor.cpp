@@ -54,7 +54,13 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 			{
 				if (map->getFinishTileExistance() == false) map->setFinishTile(chosenTile);
 				else if (map->getStartTileExistance() == false) map->setStartTile(chosenTile);
-				else if (map->getObstacleTiles().size() < map->getRestOfTiles()) map->setObstacleTiles(chosenTile);
+				else if (map->getObstacleTiles().size() < map->getRestOfTiles())
+				{
+					/// check if this tile is not already inside obstacleTiles.
+				
+						if(map->getFinishTile().getPosition() != chosenTile && map->getStartTile().getPosition() != chosenTile)
+						map->setObstacleTiles(chosenTile);
+				}
 			}
 
 			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
@@ -67,7 +73,25 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 
 	if (holdMouseButton >= 1.5 && map->getStartTileExistance() == true)
 	{
-		if (map->getObstacleTiles().size() < map->getRestOfTiles()) map->setObstacleTiles(chosenTile);
+		if (map->getObstacleTiles().size() < map->getRestOfTiles())
+		{
+			if (map->getFinishTile().getPosition() != chosenTile && map->getStartTile().getPosition() != chosenTile)
+			{
+				for (int i = 0; i < map->getObstacleTiles().size(); i++)
+				{
+					if (chosenTile == map->getObstacleTiles()[i].getPosition())
+					{
+						cout << "Ok\n";
+						map->setObstacleCheck(false);
+					}
+				}
+				if (map->getObstacleCheck() == true)
+				{
+					map->setObstacleTiles(chosenTile);
+				}
+				map->setObstacleCheck(true);
+			}
+		}
 	}
 }
 
@@ -85,6 +109,7 @@ sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile>* board = &(map->getNormalTiles());
 
+	/// this should be new method? like creating tiles (not highlightTile())
 	if (map->getFinishTileExistance())
 	{
 		board->push_back(map->getFinishTile());
@@ -98,7 +123,6 @@ sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 		for (int i = 0; i < map->getObstacleTiles().size(); i++)
 		{
 			board->push_back(map->getObstacleTiles()[i]);
-
 		}
 	}
 	sf::FloatRect tileBounds;

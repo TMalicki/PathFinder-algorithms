@@ -21,6 +21,7 @@ private:
 	
 	bool finishTileExist;
 	bool startTileExist;
+	bool obstacleCheck = true;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
 
@@ -46,6 +47,8 @@ public:
 
 	void deleteTile(sf::Vector2f);
 
+	void setObstacleCheck(bool check) { obstacleCheck = check; }
+	bool getObstacleCheck() { return obstacleCheck; }
 	//void setTile(Tile tile, sf::Vector2f coord);
 	//void setTile(vector<Tile> tile, sf::Vector2f coord);
 };
