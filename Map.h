@@ -11,7 +11,6 @@ using namespace std;
 class Map 
 {
 private:
-	//vector<Tile> allTile;
 	vector<Tile> normalTile;
 	vector<Tile> obstacleTile;
 	Tile finishTile;
@@ -21,7 +20,7 @@ private:
 	
 	bool finishTileExist;
 	bool startTileExist;
-	bool obstacleCheck = true;
+	bool obstacleCheck = false;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
 

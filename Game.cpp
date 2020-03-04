@@ -11,10 +11,8 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		if (!(editor->run(window, event, map))) 
-		{
+		if (!(editor->run(window, event, map)));
 
-		}
 		else
 		{
 			algorithm = new Algorithm(*map);

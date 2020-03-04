@@ -13,14 +13,11 @@ Editor::Editor(Map* map)
 
 bool Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
 {
-	//while (closeEditor == false)
-	//{
-		dt = clock.restart().asSeconds();
+	dt = clock.restart().asSeconds();
 
-		sf::Vector2f chosenTile = highlightTile(window, map);
-		update(window, event, map, chosenTile);
-	//	map->draw(window);
-	//}
+	sf::Vector2f chosenTile = highlightTile(window, map);
+	update(window, event, map, chosenTile);
+
 	return closeEditor;
 }
 
@@ -37,8 +34,6 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 			if (event.key.code == sf::Keyboard::Escape)
 			{
 				closeEditor = true;
-				cout << "Exit.\n";
-				cout << "Try to make some changes to MAP class";
 			}
 		}
 
@@ -57,9 +52,11 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 				else if (map->getObstacleTiles().size() < map->getRestOfTiles())
 				{
 					/// check if this tile is not already inside obstacleTiles.
-				
-						if(map->getFinishTile().getPosition() != chosenTile && map->getStartTile().getPosition() != chosenTile)
+					if (alreadyTaken(chosenTile) == false)
+					{
 						map->setObstacleTiles(chosenTile);
+					}
+					map->setObstacleCheck(false);
 				}
 			}
 
@@ -75,25 +72,84 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 	{
 		if (map->getObstacleTiles().size() < map->getRestOfTiles())
 		{
-			if (map->getFinishTile().getPosition() != chosenTile && map->getStartTile().getPosition() != chosenTile)
+			/// check if this tile is not already inside obstacleTiles.
+			if (alreadyTaken(chosenTile) == false)
 			{
-				for (int i = 0; i < map->getObstacleTiles().size(); i++)
-				{
-					if (chosenTile == map->getObstacleTiles()[i].getPosition())
-					{
-						cout << "Ok\n";
-						map->setObstacleCheck(false);
-					}
-				}
-				if (map->getObstacleCheck() == true)
-				{
-					map->setObstacleTiles(chosenTile);
-				}
+				map->setObstacleTiles(chosenTile);
+			}
+			map->setObstacleCheck(false);
+		}
+	}
+}
+
+sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+	std::vector<Tile> board = (map->getNormalTiles());
+
+	/// this should be new method? like creating tiles (not highlightTile())
+	if (map->getFinishTileExistance())
+	{
+		board.push_back(map->getFinishTile());
+	}
+	if (map->getStartTileExistance())
+	{
+		board.push_back(map->getStartTile());
+	}
+	if (map->getObstacleTiles().size() > 0)
+	{
+		for (int i = 0; i < map->getObstacleTiles().size(); i++)
+		{
+			board.push_back(map->getObstacleTiles()[i]);
+		}
+	}
+	sf::FloatRect tileBounds;
+
+	sf::Vector2f chosenTile;
+	int boardCounter = board.size();
+
+	while (boardCounter--)
+	{
+		tileBounds = (board)[boardCounter].getTile().getGlobalBounds();
+
+		if ((mousePos.x > tileBounds.left) && (mousePos.x < tileBounds.left + tileBounds.width)
+			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
+		{
+			(board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
+			chosenTile = (board)[boardCounter].getTile().getPosition();
+
+			/// building up color changing while holding mouse button
+			if (holdMouseButton > 0.6 && map->getStartTileExistance()) (board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
+		}
+		else
+		{
+			(board)[boardCounter].getTile().setFillColor(sf::Color::White);
+		}
+	}
+	return chosenTile;
+}
+
+bool Editor::alreadyTaken(sf::Vector2f chosenTile)
+{
+	/// check if this tile is not already inside obstacleTiles.
+	if (map->getFinishTile().getPosition() == chosenTile || map->getStartTile().getPosition() == chosenTile)
+	{
+		map->setObstacleCheck(true);
+	}
+	else 
+	{
+		for (int i = 0; i < map->getObstacleTiles().size(); i++)
+		{
+			if (chosenTile == map->getObstacleTiles()[i].getPosition())
+			{
 				map->setObstacleCheck(true);
 			}
 		}
 	}
+
+	return map->getObstacleCheck();
 }
+
 
 void Editor::holdButton()
 {
@@ -102,51 +158,4 @@ void Editor::holdButton()
 		holdMouseButton += dt;
 	}
 	else holdMouseButton = 0.0;
-}
-
-sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
-{
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	std::vector<Tile>* board = &(map->getNormalTiles());
-
-	/// this should be new method? like creating tiles (not highlightTile())
-	if (map->getFinishTileExistance())
-	{
-		board->push_back(map->getFinishTile());
-	}
-	if (map->getStartTileExistance())
-	{
-		board->push_back(map->getStartTile());
-	}
-	if (map->getObstacleTiles().size() > 0)
-	{
-		for (int i = 0; i < map->getObstacleTiles().size(); i++)
-		{
-			board->push_back(map->getObstacleTiles()[i]);
-		}
-	}
-	sf::FloatRect tileBounds;
-
-	sf::Vector2f chosenTile;
-	int boardCounter = board->size();
-
-	while (boardCounter--)
-	{
-		tileBounds = (*board)[boardCounter].getTile().getGlobalBounds();
-
-		if ((mousePos.x > tileBounds.left) && (mousePos.x < tileBounds.left + tileBounds.width)
-			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
-		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
-			chosenTile = (*board)[boardCounter].getTile().getPosition();
-
-			/// building up color changing while holding mouse button
-			if (holdMouseButton > 0.6 && map->getStartTileExistance()) (*board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
-		}
-		else
-		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color::White);
-		}
-	}
-	return chosenTile;
 }
