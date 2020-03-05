@@ -15,6 +15,7 @@ private:
 	vector<Tile> obstacleTile;
 	Tile finishTile;
 	Tile startTile;
+	vector<Tile> board;
 
 	sf::Vector2i amountOfTiles;
 	
@@ -23,6 +24,8 @@ private:
 	bool obstacleCheck = false;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
+
+	vector<Tile>& getBoard() { return board; }
 
 	void setNumOfTiles(sf::Vector2i numOfTiles) { amountOfTiles = numOfTiles; }
 	vector<Tile>& getNormalTiles() { return normalTile; }

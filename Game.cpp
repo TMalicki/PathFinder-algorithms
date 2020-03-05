@@ -3,7 +3,7 @@
 Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles) 
 {
 	window = new sf::RenderWindow(sf::VideoMode(amountOfTiles.x * sizeOfTiles.x, amountOfTiles.y * sizeOfTiles.y), "PathFinder");
-	map = new Map(sf::Vector2i(10, 10), sf::Vector2f(50.f, 50.f));
+	map = new Map(amountOfTiles, sizeOfTiles);
 	editor = new Editor(map);
 }
 

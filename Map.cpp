@@ -64,6 +64,8 @@ void Map::setObstacleTiles(sf::Vector2f coord)
 		}
 	}
 }
+
+
 void Map::deleteTile(sf::Vector2f coord)
 {
 	/// try switch maybe?
