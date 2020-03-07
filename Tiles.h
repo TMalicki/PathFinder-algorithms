@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+using std::string;
+
 class Tile
 {
 private:
@@ -11,7 +13,14 @@ private:
 	sf::RectangleShape tile;
 	float thickness;
 
+	string type;
+
 	Tile* parent;
+
+	const static string finish;
+	const static string start;
+	const static string obstacle;
+	const static string normal;
 
 public:
 	Tile(sf::Vector2f size = { 50.f ,50.f });
@@ -23,6 +32,17 @@ public:
 	sf::Vector2f getOrigin() { return tile.getOrigin(); }
 	sf::Vector2f getPosition() { return tile.getPosition(); }
 	void setColor(sf::Color color) { tile.setFillColor(color); }
+
+	void setNormalType() { type = normal; }
+	void setObstacleType() { type = obstacle; }
+	void setFinishType() { type = finish; }
+	void setStartType() { type = start; }
+
+	string getType() { return type; }
+	static string getNormalTypeName() { return normal; }
+	static string getFinishTypeName() { return finish; }
+	static string getStartTypeName() { return start; }
+	static string getObstacleTypeName() { return obstacle; }
 };
 
 

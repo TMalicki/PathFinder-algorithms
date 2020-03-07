@@ -25,7 +25,7 @@ public:
 
 	void holdButton();
 	sf::Vector2f highlightTile(sf::RenderWindow* window, Map* map);
-	bool alreadyTaken(sf::Vector2f);
+	//bool alreadyTaken(sf::Vector2f);
 };
 
 #endif

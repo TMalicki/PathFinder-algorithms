@@ -11,10 +11,10 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 		for (int j = 0; j < numberOfTiles.x; j++)
 		{
 			temp.getTile().setPosition(coord.x + (j * distance.x), coord.y + (i * distance.y));
-			normalTile.push_back(temp);
+			board.push_back(temp);
 		}
 	}
-	
+
 	finishTileExist = false;
 	startTileExist = false;
 }
@@ -23,14 +23,12 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 
 void Map::setFinishTile(sf::Vector2f coord)
 {
-	for (int i = 0; i < normalTile.size() && finishTileExist == false; i++)
+	for (int i = 0; i < board.size() && finishTileExist == false; i++)
 	{
-		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
 		{
-			finishTile = normalTile[i];
-			finishTile.getTile().setFillColor(sf::Color::Red);
-			normalTile.erase(normalTile.begin() + i);
-
+			board[i].setFinishType();
+			board[i].getTile().setFillColor(sf::Color::Red);
 			finishTileExist = true;
 		}
 	}
@@ -38,14 +36,12 @@ void Map::setFinishTile(sf::Vector2f coord)
 
 void Map::setStartTile(sf::Vector2f coord)
 {
-	for (int i = 0; i < normalTile.size() && startTileExist == false; i++)
+	for (int i = 0; i < board.size() && startTileExist == false; i++)
 	{
-		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
 		{
-			startTile = normalTile[i];
-			startTile.getTile().setFillColor(sf::Color::Green);
-			normalTile.erase(normalTile.begin() + i);
-
+			board[i].setStartType();
+			board[i].getTile().setFillColor(sf::Color::Green);
 			startTileExist = true;
 		}
 	}
@@ -53,46 +49,27 @@ void Map::setStartTile(sf::Vector2f coord)
 
 void Map::setObstacleTiles(sf::Vector2f coord)
 {
-	int startingSize = obstacleTile.size();
-	for (int i = 0; i < normalTile.size() && obstacleTile.size() == startingSize; i++)
+	for (int i = 0; i < board.size(); i++)
 	{
-		if (coord.x == normalTile[i].getPosition().x && coord.y == normalTile[i].getPosition().y)
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
 		{
-			obstacleTile.push_back(normalTile[i]);
-			obstacleTile.back().getTile().setFillColor(sf::Color::Black);
-			normalTile.erase(normalTile.begin() + i);
+			board[i].setObstacleType();
+			board[i].getTile().setFillColor(sf::Color::Black);
 		}
 	}
 }
-
-
 void Map::deleteTile(sf::Vector2f coord)
 {
-	/// try switch maybe?
-	sf::Vector2f tempPos = finishTile.getPosition();
-	if (coord.x == tempPos.x && coord.y == tempPos.y)
+	for (int i = 0; i < getBoard().size(); i++)
 	{
-		finishTileExist = false;
-		/// delete finishTile; /// maybe with pointer
-	}
-	tempPos = startTile.getPosition();
-	if (coord.x == tempPos.x && coord.y == tempPos.y)
-	{
-		startTileExist = false;
-		/// delete startFile; /// maybe with pointer
-	}
-	
-	if (obstacleTile.size() > 0)
-	{
-		for (int i = 0; i < obstacleTile.size(); i++)
+		if (coord == board[i].getPosition())
 		{
-			tempPos = obstacleTile[i].getPosition();
-			if (coord.x == tempPos.x && coord.y == tempPos.y)
-			{
-				obstacleTile.erase(obstacleTile.begin() + i);
-			}
+			if (board[i].getType() == board[i].getFinishTypeName()) finishTileExist = false;
+			else if (board[i].getType() == board[i].getStartTypeName()) startTileExist = false;
+
+			board[i].setNormalType();
 		}
-	}
+	}	
 }
 
 /// -----------------------------------------------------------------------------------------------------------------------

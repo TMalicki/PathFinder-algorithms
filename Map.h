@@ -8,44 +8,46 @@
 
 using namespace std;
 
-class Map 
+class Map
 {
 private:
-	vector<Tile> normalTile;
-	vector<Tile> obstacleTile;
-	Tile finishTile;
-	Tile startTile;
 	vector<Tile> board;
 
+	//vector<Tile> normalTile;
+	//vector<Tile> obstacleTile;
+	//Tile finishTile;
+	//Tile startTile;
+
 	sf::Vector2i amountOfTiles;
-	
+
 	bool finishTileExist;
 	bool startTileExist;
 	bool obstacleCheck = false;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
 
+	void setBoard(Tile& boardTile) { board.push_back(boardTile); }
 	vector<Tile>& getBoard() { return board; }
 
 	void setNumOfTiles(sf::Vector2i numOfTiles) { amountOfTiles = numOfTiles; }
-	vector<Tile>& getNormalTiles() { return normalTile; }
+	//vector<Tile>& getNormalTiles() { return normalTile; }
 
 	/// ------------------------
 	void setFinishTile(sf::Vector2f);
-	Tile& getFinishTile() { return finishTile; }
+	//Tile& getFinishTile() { return finishTile; }
 	bool getFinishTileExistance() { return finishTileExist; }
 
 	/// ------------------------
 	void setStartTile(sf::Vector2f);
-	Tile& getStartTile() { return startTile; }
+	//Tile& getStartTile() { return startTile; }
 	bool getStartTileExistance() { return startTileExist; }
 
 	/// -------------------------
 	void setObstacleTiles(sf::Vector2f);
-	vector<Tile>& getObstacleTiles() { return obstacleTile; }
+	//vector<Tile>& getObstacleTiles() { return obstacleTile; }
 
 	/// -------------------------
-	int getRestOfTiles() { return normalTile.size(); }
+	int getRestOfTiles() { return board.size(); }
 
 	void deleteTile(sf::Vector2f);
 

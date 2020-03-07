@@ -1,4 +1,4 @@
-#include "Editor.h"
+﻿#include "Editor.h"
 
 Editor::Editor(Map* map)
 {
@@ -37,7 +37,7 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 			}
 		}
 
-		if (event.type == sf::Event::MouseButtonPressed)
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		{
 			isKeyPressed = true;
 		}
@@ -49,15 +49,7 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 			{
 				if (map->getFinishTileExistance() == false) map->setFinishTile(chosenTile);
 				else if (map->getStartTileExistance() == false) map->setStartTile(chosenTile);
-				else if (map->getObstacleTiles().size() < map->getRestOfTiles())
-				{
-					/// check if this tile is not already inside obstacleTiles.
-					if (alreadyTaken(chosenTile) == false)
-					{
-						map->setObstacleTiles(chosenTile);
-					}
-					map->setObstacleCheck(false);
-				}
+				else map->setObstacleTiles(chosenTile);		
 			}
 
 			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
@@ -70,110 +62,44 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 
 	if (holdMouseButton >= 1.5 && map->getStartTileExistance() == true)
 	{
-		if (map->getObstacleTiles().size() < map->getRestOfTiles())
-		{
-			/// check if this tile is not already inside obstacleTiles.
-			if (alreadyTaken(chosenTile) == false)
-			{
-				map->setObstacleTiles(chosenTile);
-			}
-			map->setObstacleCheck(false);
-		}
+		map->setObstacleTiles(chosenTile);
 	}
 }
 
 sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	cout << map->getNormalTiles().size() << endl;
-	//std::vector<Tile> board = (map->getNormalTiles());
-	std::vector<Tile>* board = &map->getBoard();
-	//std::vector<Tile> board = (map->getNormalTiles());
+	std::vector<Tile>& board = (map->getBoard());
 
-	if (map->getNormalTiles().size() > 0) 
-	{
-		for (int i = 0; i < map->getNormalTiles().size(); i++)
-		{
-			board->push_back(map->getNormalTiles()[i]);
-		}
-	}
-
-	if (map->getFinishTileExistance())
-	{
-		board->push_back(map->getFinishTile());
-		//board.push_back(map->getFinishTile());
-	}
-
-	if (map->getStartTileExistance())
-	{
-		board->push_back(map->getStartTile());
-		//board.push_back(map->getStartTile());
-	}
-	if (map->getObstacleTiles().size() > 0)
-	{
-		for (int i = 0; i < map->getObstacleTiles().size(); i++)
-		{
-			board->push_back(map->getObstacleTiles()[i]);
-			//board.push_back(map->getObstacleTiles()[i]);
-		}
-	}
 	sf::FloatRect tileBounds;
 
 	sf::Vector2f chosenTile;
-	int boardCounter = board->size();
-	//int boardCounter = board.size();
+	int boardCounter = board.size();
 
 	while (boardCounter--)
 	{
-		tileBounds = (*board)[boardCounter].getTile().getGlobalBounds();
-		//tileBounds = (board)[boardCounter].getTile().getGlobalBounds();
+		tileBounds = (board)[boardCounter].getTile().getGlobalBounds();
 
 		if ((mousePos.x > tileBounds.left) && (mousePos.x < tileBounds.left + tileBounds.width)
 			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
 		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
-			chosenTile = (*board)[boardCounter].getTile().getPosition();
-			//(board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
-			//chosenTile = (board)[boardCounter].getTile().getPosition();
-
+			(board)[boardCounter].getTile().setOutlineColor(sf::Color(132, 177, 255, 180));
+			//if ((board)[boardCounter].getType() == board[boardCounter].getNormalTypeName())
+			//{
+				chosenTile = (board)[boardCounter].getTile().getPosition();
+			//}
 			/// building up color changing while holding mouse button
-			//if (holdMouseButton > 0.6 && map->getStartTileExistance()) (*board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
-			if (holdMouseButton > 0.6 && map->getStartTileExistance())
-			{
-				(*board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
-				//map->getNormalTiles[]
-			}
+			if (holdMouseButton > 0.6 && map->getStartTileExistance() && (180 * holdMouseButton) / 1.5 < 255) (board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
 		}
-		else
+		
+		else if(board[boardCounter].getType() == board[boardCounter].getNormalTypeName())
 		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color::White);
-			//(board)[boardCounter].getTile().setFillColor(sf::Color::White);
+			(board)[boardCounter].getTile().setFillColor(sf::Color::White);
+			(board)[boardCounter].getTile().setOutlineColor(sf::Color::Black);
 		}
 	}
 	return chosenTile;
 }
-
-bool Editor::alreadyTaken(sf::Vector2f chosenTile)
-{
-	/// check if this tile is not already inside obstacleTiles.
-	if (map->getFinishTile().getPosition() == chosenTile || map->getStartTile().getPosition() == chosenTile)
-	{
-		map->setObstacleCheck(true);
-	}
-	else 
-	{
-		for (int i = 0; i < map->getObstacleTiles().size(); i++)
-		{
-			if (chosenTile == map->getObstacleTiles()[i].getPosition())
-			{
-				map->setObstacleCheck(true);
-			}
-		}
-	}
-
-	return map->getObstacleCheck();
-}
-
 
 void Editor::holdButton()
 {
