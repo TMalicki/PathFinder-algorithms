@@ -25,7 +25,7 @@ void Map::setFinishTile(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size() && finishTileExist == false; i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setFinishType();
 			board[i].getTile().setFillColor(sf::Color::Red);
@@ -38,7 +38,7 @@ void Map::setStartTile(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size() && startTileExist == false; i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setStartType();
 			board[i].getTile().setFillColor(sf::Color::Green);
@@ -51,7 +51,7 @@ void Map::setObstacleTiles(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size(); i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == board[i].getNormalTypeName())
+		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setObstacleType();
 			board[i].getTile().setFillColor(sf::Color::Black);
@@ -64,8 +64,8 @@ void Map::deleteTile(sf::Vector2f coord)
 	{
 		if (coord == board[i].getPosition())
 		{
-			if (board[i].getType() == board[i].getFinishTypeName()) finishTileExist = false;
-			else if (board[i].getType() == board[i].getStartTypeName()) startTileExist = false;
+			if (board[i].getType() == Tile::getFinishTypeName()) finishTileExist = false;
+			else if (board[i].getType() == Tile::getStartTypeName()) startTileExist = false;
 
 			board[i].setNormalType();
 		}

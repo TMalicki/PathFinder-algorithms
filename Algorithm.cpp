@@ -1,40 +1,72 @@
 ﻿#include "Algorithm.h"
-/*
+
 Algorithm::Algorithm(Map& board) : map(&board) /// zrobić zeby ta mapa nie byla przekazywana przez wartosc, bo...
 {
-	currentNode = map->getStartTile();
-	finishNode = map->getFinishTile();
+	for (int i = 0; i < board.getBoard().size(); i++)
+	{
+		if (map->getBoard()[i].getType() == Tile::getStartTypeName()) currentNode = &map->getBoard()[i];
+		if (map->getBoard()[i].getType() == Tile::getFinishTypeName()) finishNode = &map->getBoard()[i];
+	}
+	//dt = 0.0;
 }
 
 void Algorithm::Begin()
 {
-	vector<Tile>* Nodes = &(map->getNormalTiles());
+	//dt = clock.restart().asSeconds();
+	vector<Tile>* Nodes = &(map->getBoard());
+
+	// distance from center of first node to second one
 	int shift = (*Nodes)[0].getSize().x;
 
 	openList.push_back(currentNode);
+	closedList.push_back(currentNode);
 
-	//while (currentNode.getPosition() != finishNode.getPosition())
-	//{
-	sf::Vector2f currentPos = currentNode.getPosition();
-
-	for (int i = 0; i < Nodes->size(); i++)
+	if (openList.size() > 0)
 	{
-		sf::Vector2f checkedPos = (*Nodes)[i].getPosition();
+		bool notCheckedYet = true;
+		sf::Vector2f currentPos = currentNode->getPosition();
 
-		if ((checkedPos.x - currentPos.x == 0 && abs(checkedPos.y - currentPos.y) == shift)
-			|| (abs(checkedPos.x - currentPos.x) == shift && checkedPos.y - currentPos.y == 0)
-			|| (abs(checkedPos.x - currentPos.x) == shift && abs(checkedPos.y - currentPos.y) == shift))
+		openList[0]->getTile().setFillColor(sf::Color::Yellow);
+		openList.erase(openList.begin());
+
+		for (int i = 0; i < Nodes->size(); i++)
 		{
-			openList.push_back((*Nodes)[i]);
-			openList.back().getTile().setFillColor(sf::Color::Cyan);
+			if ((*Nodes)[i].getType() == Tile::getNormalTypeName())
+			{
+				sf::Vector2f checkedPos = (*Nodes)[i].getPosition();
+
+				for (int j = 0; j < closedList.size(); j++)
+				{
+					if (checkedPos == closedList[j]->getPosition())
+					{
+						notCheckedYet = false;
+					}
+				}
+				
+				if ((checkedPos.x - currentPos.x == 0 && abs(checkedPos.y - currentPos.y) == shift)
+					|| (abs(checkedPos.x - currentPos.x) == shift && checkedPos.y - currentPos.y == 0)
+					|| (abs(checkedPos.x - currentPos.x) == shift && abs(checkedPos.y - currentPos.y) == shift))
+				{
+					if (notCheckedYet)
+					{
+						openList.push_back(&(*Nodes)[i]);
+						closedList.push_back(&(*Nodes)[i]);
+
+						closedList.back()->getTile().setFillColor(sf::Color::Yellow);
+						openList.back()->getTile().setFillColor(sf::Color::Magenta);
+					}
+				}
+			}
 		}
 	}
-	//if()
-	//openList.push_back()
-//}
+	currentNode = (openList[0]);
+
 	for (int i = 0; i < openList.size(); i++)
 	{
-		cout << "Numer: " << i << " " << openList[i].getPosition().x << " " << openList[i].getPosition().y << endl;
+		cout << "Numer: " << i << " " << openList[i]->getPosition().x << " " << openList[i]->getPosition().y << endl;
 	}
+
+	//double delayTime = 0.0;
+
+	//while (delayTime < 10000.0) delayTime += dt;
 }
-*/

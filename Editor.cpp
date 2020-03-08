@@ -11,14 +11,12 @@ Editor::Editor(Map* map)
 	isKeyPressed = false;
 }
 
-bool Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
+void Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
 {
 	dt = clock.restart().asSeconds();
 
 	sf::Vector2f chosenTile = highlightTile(window, map);
 	update(window, event, map, chosenTile);
-
-	return closeEditor;
 }
 
 void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile)
@@ -84,15 +82,13 @@ sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
 		{
 			(board)[boardCounter].getTile().setOutlineColor(sf::Color(132, 177, 255, 180));
-			//if ((board)[boardCounter].getType() == board[boardCounter].getNormalTypeName())
-			//{
-				chosenTile = (board)[boardCounter].getTile().getPosition();
-			//}
+			chosenTile = (board)[boardCounter].getTile().getPosition();
+
 			/// building up color changing while holding mouse button
 			if (holdMouseButton > 0.6 && map->getStartTileExistance() && (180 * holdMouseButton) / 1.5 < 255) (board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
 		}
 		
-		else if(board[boardCounter].getType() == board[boardCounter].getNormalTypeName())
+		else if(board[boardCounter].getType() == Tile::getNormalTypeName())
 		{
 			(board)[boardCounter].getTile().setFillColor(sf::Color::White);
 			(board)[boardCounter].getTile().setOutlineColor(sf::Color::Black);

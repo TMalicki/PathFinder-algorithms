@@ -10,13 +10,20 @@ class Algorithm
 private:
 	Map* map;
 
-	vector<Tile> openList;
-	vector<Tile> closedList;
+	float dt;
+	sf::Clock clock;
 
-	Tile currentNode;
-	Tile finishNode;
+	vector<Tile*> openList;
+	vector<Tile*> closedList;
+
+	Tile* currentNode;
+	Tile* finishNode;
 public:
 	Algorithm(Map& board);
+
+	vector<Tile*> getOpenList() { return openList; }
+	vector<Tile*> getClosedList() { return closedList; }
+
 	void Begin();
 };
 

@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles)
 {
@@ -11,13 +11,16 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
-		if (!(editor->run(window, event, map)));
+		if (editor->editorRunning())
+		{
+			editor->run(window, event, map);
+			algorithm = new Algorithm(*map); // to słabe bo za każdym razem podczas edytora sie wywołuje, a mogło by tylko raz po skonczeniu edytora
+		}
 
 		else
 		{
-			//algorithm = new Algorithm(*map);
-			//algorithm->Begin();
-			//update();
+			algorithm->Begin();
+			update();
 		}
 
 		draw();
@@ -40,34 +43,18 @@ void Game::update()
 void Game::draw()
 {
 	window->clear(sf::Color::White);
+	
 	/// draw
-
-	//if (map->getBoard().size() > 0)
-	//{
-
-	//}
-
 	for (int i = 0; i < map->getBoard().size(); i++)
 	{
 		window->draw(map->getBoard()[i].getTile());
 	}
-	/*
-	for (int i = 0; i < map->getNormalTiles().size(); i++)
-		window->draw(map->getNormalTiles()[i].getTile());
 
-	for (int i = 0; i < map->getNormalTiles().size(); i++)
+	for (int i = 0; i < algorithm->getOpenList().size(); i++)
 	{
-		window->draw(map->getNormalTiles()[i].getTile());
+		window->draw(algorithm->getOpenList()[i]->getTile());
 	}
-	if (map->getFinishTileExistance()) window->draw(map->getFinishTile().getTile());
-	if (map->getStartTileExistance()) window->draw(map->getStartTile().getTile());
 
-	vector<Tile> temp = map->getObstacleTiles();
-	for (int i = 0; i < temp.size(); i++)
-	{
-		if (temp.size()) window->draw(temp[i].getTile());
-	}
-	*/
 	window->display();
 }
 
@@ -85,36 +72,5 @@ void Game::holdButton()
 }
 */
 ///
-/*
-sf::Vector2f Game::highlightTile()
-{
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	std::vector<Tile>* board = &(this->map.getNormalTiles());
-	sf::FloatRect tileBounds;
-
-	sf::Vector2f chosenTile;
-	int boardCounter = board->size();
-
-	while (boardCounter--)
-	{
-		tileBounds = (*board)[boardCounter].getTile().getGlobalBounds();
-
-		if ((mousePos.x > tileBounds.left) && (mousePos.x < tileBounds.left + tileBounds.width)
-			&& (mousePos.y > tileBounds.top) && (mousePos.y < tileBounds.top + tileBounds.height))
-		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color(132, 177, 255, 180));
-			chosenTile = (*board)[boardCounter].getTile().getPosition();
-
-			/// building up color changing while holding mouse button
-			if (holdMouseButton > 0.6 && map.getStartTileExistance()) (*board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
-		}
-		else
-		{
-			(*board)[boardCounter].getTile().setFillColor(sf::Color::White);
-		}
-	}
-	return chosenTile;
-}
-*/
 
 
