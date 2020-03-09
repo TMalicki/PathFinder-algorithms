@@ -18,12 +18,17 @@ private:
 
 	Tile* currentNode;
 	Tile* finishNode;
+
+	vector<Tile>* Nodes;
+
+	int shift;
 public:
 	Algorithm(Map& board);
 
 	vector<Tile*> getOpenList() { return openList; }
 	vector<Tile*> getClosedList() { return closedList; }
 
+	bool algorithmRunning();
 	void Begin();
 };
 

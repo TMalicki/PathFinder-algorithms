@@ -17,7 +17,7 @@ void Game::run()
 			algorithm = new Algorithm(*map); // to słabe bo za każdym razem podczas edytora sie wywołuje, a mogło by tylko raz po skonczeniu edytora
 		}
 
-		else
+		else if(algorithm->algorithmRunning())
 		{
 			algorithm->Begin();
 			update();
@@ -50,10 +50,10 @@ void Game::draw()
 		window->draw(map->getBoard()[i].getTile());
 	}
 
-	for (int i = 0; i < algorithm->getOpenList().size(); i++)
-	{
-		window->draw(algorithm->getOpenList()[i]->getTile());
-	}
+	//for (int i = 0; i < algorithm->getOpenList().size(); i++)
+	//{
+	//	window->draw(algorithm->getOpenList()[i]->getTile());
+	//}
 
 	window->display();
 }
