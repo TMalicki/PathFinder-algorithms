@@ -22,13 +22,15 @@ private:
 	vector<Tile>* Nodes;
 
 	int shift;
+	bool algorithmRun;
 public:
 	Algorithm(Map& board);
 
 	vector<Tile*> getOpenList() { return openList; }
 	vector<Tile*> getClosedList() { return closedList; }
 
-	bool algorithmRunning();
+	void algorithmRunning();
+	bool getAlgorithmRun() { return algorithmRun; }
 	void Begin();
 };
 

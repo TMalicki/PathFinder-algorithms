@@ -11,18 +11,19 @@ void Game::run()
 {
 	while (window->isOpen())
 	{
+		/// MAKE IT TIME DEPENDENT
 		if (editor->editorRunning())
 		{
 			editor->run(window, event, map);
-			algorithm = new Algorithm(*map); // to słabe bo za każdym razem podczas edytora sie wywołuje, a mogło by tylko raz po skonczeniu edytora
+			algorithm = new Algorithm(*map); // this should be executed only once
 		}
 
-		else if(algorithm->algorithmRunning())
+		/// MAKE IT TIME DEPENDENT
+		else if(algorithm->getAlgorithmRun())
 		{
 			algorithm->Begin();
 			update();
 		}
-
 		draw();
 	}
 }
@@ -57,20 +58,4 @@ void Game::draw()
 
 	window->display();
 }
-
-
-
-///
-/*
-void Game::holdButton()
-{
-	if (isKeyPressed)
-	{
-		holdMouseButton += dt;
-	}
-	else holdMouseButton = 0.0;
-}
-*/
-///
-
 
