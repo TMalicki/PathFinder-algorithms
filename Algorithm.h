@@ -15,6 +15,7 @@ private:
 
 	vector<Tile*> openList;
 	vector<Tile*> closedList;
+	vector<Tile*> shortestPath;
 
 	Tile* currentNode;
 	Tile* finishNode;
@@ -23,6 +24,7 @@ private:
 
 	int shift;
 	bool algorithmRun;
+	bool endOfAlgorithm;
 public:
 	Algorithm(Map& board);
 
@@ -32,6 +34,9 @@ public:
 	void algorithmRunning();
 	bool getAlgorithmRun() { return algorithmRun; }
 	void Begin();
+
+	void getPath();
+	bool getEndOfAlgorithm() { return endOfAlgorithm; }
 };
 
 #endif

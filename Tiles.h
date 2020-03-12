@@ -38,6 +38,9 @@ public:
 	void setFinishType() { type = finish; }
 	void setStartType() { type = start; }
 
+	void setParent(Tile& child) { parent = &child; }
+	Tile* getParent() { return parent; }
+
 	string getType() { return type; }
 	static string getNormalTypeName() { return normal; }
 	static string getFinishTypeName() { return finish; }

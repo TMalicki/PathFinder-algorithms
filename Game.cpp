@@ -24,6 +24,11 @@ void Game::run()
 			algorithm->Begin();
 			update();
 		}
+
+		else if (algorithm->getAlgorithmRun() == false && editor->editorRunning() == false && algorithm->getEndOfAlgorithm() == false)
+		{
+			algorithm->getPath();
+		}
 		draw();
 	}
 }
