@@ -15,13 +15,13 @@ void Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
 {
 	dt = clock.restart().asSeconds();
 
-	sf::Vector2f chosenTile = highlightTile(window, map);
+	sf::Vector2f chosenTile = chooseTile(window, map);
 	update(window, event, map, chosenTile);
 }
 
 void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile)
 {
-	holdButton();
+	holdButton();	// check if left button is being pushed for a while
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
@@ -52,7 +52,6 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 
 			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
 			{
-				/// delete tiles from map
 				map->deleteTile(chosenTile);
 			}
 		}
@@ -64,7 +63,16 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 	}
 }
 
-sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
+void Editor::holdButton()
+{
+	if (isKeyPressed)
+	{
+		holdMouseButton += dt;
+	}
+	else holdMouseButton = 0.0;
+}
+
+sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile>& board = (map->getBoard());
@@ -97,11 +105,3 @@ sf::Vector2f Editor::highlightTile(sf::RenderWindow* window, Map* map)
 	return chosenTile;
 }
 
-void Editor::holdButton()
-{
-	if (isKeyPressed)
-	{
-		holdMouseButton += dt;
-	}
-	else holdMouseButton = 0.0;
-}

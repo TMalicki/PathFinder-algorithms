@@ -23,10 +23,9 @@ public:
 	void run(sf::RenderWindow* window, sf::Event& event, Map* map);
 	void update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile);
 
-	bool editorRunning() { return !(closeEditor); }
+	bool isEditorRunning() { return !(closeEditor); }
 	void holdButton();
-	sf::Vector2f highlightTile(sf::RenderWindow* window, Map* map);
-	//bool alreadyTaken(sf::Vector2f);
+	sf::Vector2f chooseTile(sf::RenderWindow* window, Map* map);
 };
 
 #endif

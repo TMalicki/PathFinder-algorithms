@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <string>
 
 using std::string;
 
@@ -13,10 +14,12 @@ private:
 	sf::RectangleShape tile;
 	float thickness;
 
-	string type;
+	sf::Text txtPosX;
+	sf::Text txtPosY;
 
 	Tile* parent;
 
+	string type;
 	const static string finish;
 	const static string start;
 	const static string obstacle;
@@ -46,6 +49,10 @@ public:
 	static string getFinishTypeName() { return finish; }
 	static string getStartTypeName() { return start; }
 	static string getObstacleTypeName() { return obstacle; }
+
+	void enablePositions(sf::Font&);
+	sf::Text& getPosX() { return txtPosX; }
+	sf::Text& getPosY() { return txtPosY; }
 };
 
 

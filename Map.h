@@ -12,49 +12,29 @@ class Map
 {
 private:
 	vector<Tile> board;
-
-	//vector<Tile> normalTile;
-	//vector<Tile> obstacleTile;
-	//Tile finishTile;
-	//Tile startTile;
-
+	sf::Font font;
 	sf::Vector2i amountOfTiles;
 
 	bool finishTileExist;
 	bool startTileExist;
-	bool obstacleCheck = false;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
 
 	void setBoard(Tile& boardTile) { board.push_back(boardTile); }
 	vector<Tile>& getBoard() { return board; }
 
-	void setNumOfTiles(sf::Vector2i numOfTiles) { amountOfTiles = numOfTiles; }
-	//vector<Tile>& getNormalTiles() { return normalTile; }
+	void deleteTile(sf::Vector2f);
 
 	/// ------------------------
 	void setFinishTile(sf::Vector2f);
-	//Tile& getFinishTile() { return finishTile; }
 	bool getFinishTileExistance() { return finishTileExist; }
 
 	/// ------------------------
 	void setStartTile(sf::Vector2f);
-	//Tile& getStartTile() { return startTile; }
 	bool getStartTileExistance() { return startTileExist; }
 
 	/// -------------------------
 	void setObstacleTiles(sf::Vector2f);
-	//vector<Tile>& getObstacleTiles() { return obstacleTile; }
-
-	/// -------------------------
-	int getRestOfTiles() { return board.size(); }
-
-	void deleteTile(sf::Vector2f);
-
-	void setObstacleCheck(bool check) { obstacleCheck = check; }
-	bool getObstacleCheck() { return obstacleCheck; }
-	//void setTile(Tile tile, sf::Vector2f coord);
-	//void setTile(vector<Tile> tile, sf::Vector2f coord);
 };
 
 #endif

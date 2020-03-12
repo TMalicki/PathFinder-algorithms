@@ -12,7 +12,7 @@ void Game::run()
 	while (window->isOpen())
 	{
 		/// MAKE IT TIME DEPENDENT
-		if (editor->editorRunning())
+		if (editor->isEditorRunning())
 		{
 			editor->run(window, event, map);
 			algorithm = new Algorithm(*map); // this should be executed only once
@@ -21,11 +21,11 @@ void Game::run()
 		/// MAKE IT TIME DEPENDENT
 		else if(algorithm->getAlgorithmRun())
 		{
-			algorithm->Begin();
+			algorithm->Run();
 			update();
 		}
 
-		else if (algorithm->getAlgorithmRun() == false && editor->editorRunning() == false && algorithm->getEndOfAlgorithm() == false)
+		else if (algorithm->getAlgorithmRun() == false && editor->isEditorRunning() == false && algorithm->getEndOfAlgorithm() == false)
 		{
 			algorithm->getPath();
 		}
@@ -54,6 +54,11 @@ void Game::draw()
 	for (int i = 0; i < map->getBoard().size(); i++)
 	{
 		window->draw(map->getBoard()[i].getTile());
+		if (editor->isEditorRunning() == false)
+		{
+			window->draw(map->getBoard()[i].getPosX());
+			window->draw(map->getBoard()[i].getPosY());
+		}
 	}
 
 	//for (int i = 0; i < algorithm->getOpenList().size(); i++)

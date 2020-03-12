@@ -33,7 +33,7 @@ public:
 
 	void algorithmRunning();
 	bool getAlgorithmRun() { return algorithmRun; }
-	void Begin();
+	void Run();
 
 	void getPath();
 	bool getEndOfAlgorithm() { return endOfAlgorithm; }

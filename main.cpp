@@ -4,6 +4,7 @@
 
 int main()
 {
+	//Game game(sf::Vector2i(30, 30), sf::Vector2f(30.f, 30.f));
 	Game game(sf::Vector2i(10, 10), sf::Vector2f(50.f, 50.f));
 	game.run();
 

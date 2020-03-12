@@ -6,12 +6,18 @@ Map::Map(sf::Vector2i numberOfTiles, sf::Vector2f sizeOfTiles) : amountOfTiles(n
 	sf::Vector2f distance = temp.getSize();
 	sf::Vector2f coord = temp.getOrigin();
 
+	if (!font.loadFromFile("fonts/QuiteMagical.ttf"))
+	{
+		std::cout << "Error with font.\n";
+	}
+
 	for (int i = 0; i < numberOfTiles.y; i++)
 	{
 		for (int j = 0; j < numberOfTiles.x; j++)
 		{
 			temp.getTile().setPosition(coord.x + (j * distance.x), coord.y + (i * distance.y));
 			board.push_back(temp);
+			board.back().enablePositions(font);
 		}
 	}
 
@@ -25,7 +31,7 @@ void Map::setFinishTile(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size() && finishTileExist == false; i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
+		if (coord == board[i].getPosition() && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setFinishType();
 			board[i].getTile().setFillColor(sf::Color::Red);
@@ -38,7 +44,7 @@ void Map::setStartTile(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size() && startTileExist == false; i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
+		if (coord == board[i].getPosition() && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setStartType();
 			board[i].getTile().setFillColor(sf::Color::Green);
@@ -51,7 +57,7 @@ void Map::setObstacleTiles(sf::Vector2f coord)
 {
 	for (int i = 0; i < board.size(); i++)
 	{
-		if (coord.x == board[i].getPosition().x && coord.y == board[i].getPosition().y && board[i].getType() == Tile::getNormalTypeName())
+		if (coord == board[i].getPosition() && board[i].getType() == Tile::getNormalTypeName())
 		{
 			board[i].setObstacleType();
 			board[i].getTile().setFillColor(sf::Color::Black);

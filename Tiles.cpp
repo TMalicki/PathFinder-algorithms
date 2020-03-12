@@ -15,3 +15,24 @@ Tile::Tile(sf::Vector2f sideSize) : size(sideSize), thickness(-2.0f)
 
 	setNormalType();
 }
+
+void Tile::enablePositions(sf::Font& font)
+{
+	txtPosX.setFont(font);
+	txtPosY.setFont(font);
+
+	txtPosX.setString(std::to_string((int)getPosition().x));
+	txtPosY.setString(std::to_string((int)getPosition().y));
+
+	txtPosX.setCharacterSize(16);
+	txtPosY.setCharacterSize(16);
+
+	txtPosX.setFillColor(sf::Color::Black);
+	txtPosY.setFillColor(sf::Color::Black);
+
+	txtPosX.setPosition(getPosition());
+	txtPosX.move(-20, -size.x / 5 - 10);
+
+	txtPosY.setPosition(getPosition());
+	txtPosY.move(-20, size.x / 5 - 10);
+}
