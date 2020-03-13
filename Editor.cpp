@@ -3,7 +3,7 @@
 Editor::Editor(Map* map)
 {
 	this->map = map;
-	closeEditor = false;
+	editorRunning = true;
 	isKeyPressed = false;
 
 	dt = 0.0;
@@ -29,9 +29,13 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 
 		if (event.type == sf::Event::KeyPressed)
 		{
+			if (event.key.code == sf::Keyboard::Enter)
+			{
+				editorRunning = false;
+			}
 			if (event.key.code == sf::Keyboard::Escape)
 			{
-				closeEditor = true;
+				window->close();
 			}
 		}
 
@@ -43,14 +47,14 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 		if (event.type == sf::Event::MouseButtonReleased)
 		{
 			isKeyPressed = false;
-			if (event.mouseButton.button == sf::Mouse::Left && closeEditor == false)
+			if (event.mouseButton.button == sf::Mouse::Left && editorRunning == true)
 			{
 				if (map->getFinishTileExistance() == false) map->setFinishTile(chosenTile);
 				else if (map->getStartTileExistance() == false) map->setStartTile(chosenTile);
 				else map->setObstacleTiles(chosenTile);		
 			}
 
-			if (event.mouseButton.button == sf::Mouse::Right && closeEditor == false)
+			if (event.mouseButton.button == sf::Mouse::Right && editorRunning == true)
 			{
 				map->deleteTile(chosenTile);
 			}
@@ -93,7 +97,7 @@ sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map)
 			chosenTile = (board)[boardCounter].getTile().getPosition();
 
 			/// building up color changing while holding mouse button
-			if (holdMouseButton > 0.6 && map->getStartTileExistance() && (180 * holdMouseButton) / 1.5 < 255) (board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.5)));
+			if (holdMouseButton > 0.6 && map->getStartTileExistance() && (180 * holdMouseButton) / 1.0 < 255) (board)[boardCounter].getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.0)));
 		}
 		
 		else if(board[boardCounter].getType() == Tile::getNormalTypeName())

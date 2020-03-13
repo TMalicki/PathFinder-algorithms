@@ -8,7 +8,7 @@
 class Editor
 {
 private:
-	bool closeEditor;
+	bool editorRunning;
 
 	float dt;
 	sf::Clock clock;
@@ -23,7 +23,9 @@ public:
 	void run(sf::RenderWindow* window, sf::Event& event, Map* map);
 	void update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile);
 
-	bool isEditorRunning() { return !(closeEditor); }
+	bool isEditorRunning() { return editorRunning; }
+	void setEditorRunning(bool val) { editorRunning = val; }
+
 	void holdButton();
 	sf::Vector2f chooseTile(sf::RenderWindow* window, Map* map);
 };

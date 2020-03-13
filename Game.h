@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Editor.h"
 #include "Map.h"
-#include "Algorithm.h"
+#include "BFS.h"
 
 class Game
 {
@@ -13,19 +13,23 @@ private:
 	sf::RenderWindow* window;
 	sf::Event event;
 
-	Algorithm* algorithm;
+	BFS* algorithm;
 	Editor* editor;
 	Map* map;
-	///bool closeEditor;
 
-	///float dt; 
-	///sf::Clock clock;
+
+	bool timeShow;
+	float dt; 
+	sf::Clock clock;
+	double delayAlgorithm;
+	double timeAlgorithmCalculation;
 public:
 	Game(sf::Vector2i amountOfTiles = { 10,10 }, sf::Vector2f sizeOfTiles = { 50.0f, 50.0f });
 
 	void run();
-	void update();
+	void reload();
 
+	void update();
 	void draw();
 
 	///void holdButton();
