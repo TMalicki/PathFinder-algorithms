@@ -15,20 +15,25 @@ void Game::run()
 		if (editor->isEditorRunning())
 		{
 			editor->run(window, event, map);
-			algorithm = new Algorithm(*map); // this should be executed only once
+			
 		}
-
 		/// MAKE IT TIME DEPENDENT
-		else if(algorithm->getAlgorithmRun())
+		else if(editor->isEditorRunning() == false && algorithm != nullptr && algorithm->isAlgorithmRunning() == true)
 		{
 			algorithm->Run();
 			update();
 		}
 
-		else if (algorithm->getAlgorithmRun() == false && editor->isEditorRunning() == false && algorithm->getEndOfAlgorithm() == false)
+		else if (algorithm->isAlgorithmRunning() == false && editor->isEditorRunning() == false )
 		{
 			algorithm->getPath();
 		}
+
+		if (editor->isEditorRunning() == false && algorithm == nullptr)
+		{
+			algorithm = new Algorithm(*map); /// this should be executed only once
+		}
+
 		draw();
 	}
 }

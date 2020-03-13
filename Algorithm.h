@@ -10,33 +10,30 @@ class Algorithm
 private:
 	Map* map;
 
-	float dt;
-	sf::Clock clock;
+	int shift;					// distance from center of first node to second one
+	bool algorithmRunning;			
 
-	vector<Tile*> openList;
+	//float dt;
+	//sf::Clock clock;
+
+	vector<Tile*> openList;		//frontier
 	vector<Tile*> closedList;
 	vector<Tile*> shortestPath;
 
 	Tile* currentNode;
 	Tile* finishNode;
-
-	vector<Tile>* Nodes;
-
-	int shift;
-	bool algorithmRun;
-	bool endOfAlgorithm;
+	vector<Tile>* board;
 public:
-	Algorithm(Map& board);
+	Algorithm(Map& originalMap);
 
 	vector<Tile*> getOpenList() { return openList; }
 	vector<Tile*> getClosedList() { return closedList; }
 
-	void algorithmRunning();
-	bool getAlgorithmRun() { return algorithmRun; }
+	void checkIfAlgorithmIsRunning();
+	bool isAlgorithmRunning() { return algorithmRunning; }
 	void Run();
 
 	void getPath();
-	bool getEndOfAlgorithm() { return endOfAlgorithm; }
 };
 
 #endif

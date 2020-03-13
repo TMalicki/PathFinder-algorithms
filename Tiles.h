@@ -16,6 +16,7 @@ private:
 
 	sf::Text txtPosX;
 	sf::Text txtPosY;
+	sf::Text txtIteration;
 
 	Tile* parent;
 
@@ -51,6 +52,7 @@ public:
 	static string getObstacleTypeName() { return obstacle; }
 
 	void enablePositions(sf::Font&);
+	void enableIteration(sf::Font&, int);
 	sf::Text& getPosX() { return txtPosX; }
 	sf::Text& getPosY() { return txtPosY; }
 };

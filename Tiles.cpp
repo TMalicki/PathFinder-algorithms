@@ -36,3 +36,17 @@ void Tile::enablePositions(sf::Font& font)
 	txtPosY.setPosition(getPosition());
 	txtPosY.move(-20, size.x / 5 - 10);
 }
+
+void Tile::enableIteration(sf::Font& font, int i)
+{
+	txtIteration.setFont(font);
+
+	txtIteration.setString(std::to_string(i));
+
+	txtIteration.setCharacterSize(16);
+
+	txtIteration.setFillColor(sf::Color::Black);
+
+	txtIteration.setPosition(getPosition());
+	txtIteration.move(-20, -size.x / 5 - 10);
+}

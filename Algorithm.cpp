@@ -1,88 +1,94 @@
 ﻿#include "Algorithm.h"
 
-Algorithm::Algorithm(Map& board) : map(&board) 
+Algorithm::Algorithm(Map& originalMap) : map(&originalMap)
 {
-	endOfAlgorithm = false;
-	for (int i = 0; i < board.getBoard().size(); i++)
+	algorithmRunning = true;
+	board = &(map->getBoard());
+
+	/// set up -> put startNode inside openList and closedList, get finishNode 
+	for (int i = 0; i < originalMap.getBoard().size(); i++)
 	{
-		if (map->getBoard()[i].getType() == Tile::getStartTypeName())
+		if ((*board)[i].getType() == Tile::getStartTypeName())
 		{
-			currentNode = &map->getBoard()[i];
+			openList.push_back(&(*board)[i]);
 		}
 		if (map->getBoard()[i].getType() == Tile::getFinishTypeName())
 		{
-			finishNode = &map->getBoard()[i];
+			finishNode = &(*board)[i];
 		}
 	}
-	algorithmRun = true;
+	shift = (*board)[0].getSize().x;
+	closedList.push_back(openList.back());
 
 	//dt = clock.restart().asSeconds();
-	Nodes = &(map->getBoard());
-
-	// distance from center of first node to second one
-	shift = (*Nodes)[0].getSize().x;
-
-	openList.push_back(currentNode);
-	closedList.push_back(currentNode);
-	
-	//if(board.getFinishTileExistance())
-	//cout << " \n\n\n" << finishNode->getPosition().x << " " << finishNode->getPosition().y << " \n\n\n";
 	//dt = 0.0;
 }
 
-void Algorithm::algorithmRunning()
+void Algorithm::checkIfAlgorithmIsRunning()
 {
-	if (openList.size() > 0 && currentNode->getPosition() == finishNode->getPosition())
+	/// end algorithm if finishNode is achieved or there is nothing inside openList
+	if (openList.size() == 0 || currentNode->getPosition() == finishNode->getPosition())
 	{
-		algorithmRun = false;
-	///	cout << "\n\nFINISH NODE\n\n";
+		algorithmRunning = false;
+		cout << "\n\nFINISH NODE\n\n";
 	}
 }
 
 void Algorithm::Run()
 {
-	if (algorithmRun == true)
+	if (algorithmRunning == true)
 	{
 		currentNode = (openList[0]);
-		sf::Vector2f currentPos = currentNode->getPosition();
-	///	cout << "CURRENT POSITION: " << currentPos.x << " " << currentPos.y << "\n\n";
-		if (openList[0]->getType() == Tile::getNormalTypeName())
-		{
-			openList[0]->getTile().setFillColor(sf::Color::Yellow);
-		}
+
+		checkIfAlgorithmIsRunning();
+
 		openList.erase(openList.begin());
 
-		for (int i = 0; i < Nodes->size() && algorithmRun == true; i++)
-		{
-			//algorithmRunning();
-			bool notCheckedYet = true;
-			auto temp = (*Nodes)[i].getType();
+		sf::Vector2f currentPos = currentNode->getPosition();
 
-			if ((temp == Tile::getNormalTypeName() || temp == Tile::getFinishTypeName()))
+		// for not coloring starting and finishing tiles
+		if (currentNode->getType() == Tile::getNormalTypeName())
+		{
+			currentNode->getTile().setFillColor(sf::Color::Yellow);
+		}
+		cout << "CURRENT POSITION: " << currentPos.x << " " << currentPos.y << "\n\n";
+
+		// currentNode neighbours iterator
+		for (int i = 0; i < board->size() && algorithmRunning == true; i++)
+		{
+			bool alreadyChecked = false;
+
+			auto neighbourNode = &(*board)[i];
+			auto neighbourType = (*board)[i].getType();
+			sf::Vector2f neighbourPos = (*board)[i].getPosition();
+
+			if ((neighbourType == Tile::getNormalTypeName() || neighbourType == Tile::getFinishTypeName()))
 			{
-				sf::Vector2f checkedPos = (*Nodes)[i].getPosition();
-			///	cout << "Current checked Pos: " << checkedPos.x << " " << checkedPos.y << "\n";
+				cout << "CHECKED POSITION: " << neighbourPos.x << " " << neighbourPos.y << "\n";
+
+				// check if checking position is not already inside closedList (alreadyChecked)
 				for (int j = 0; j < closedList.size(); j++)
 				{
-					if (checkedPos == closedList[j]->getPosition())
+					if (neighbourPos == closedList[j]->getPosition())
 					{
-						notCheckedYet = false;
+						alreadyChecked = true;
 					}
 				}
 
-				if ((checkedPos.x - currentPos.x == 0 && abs(checkedPos.y - currentPos.y) == shift)
-					|| (abs(checkedPos.x - currentPos.x) == shift && checkedPos.y - currentPos.y == 0))
+				if ((neighbourPos.x - currentPos.x == 0 && abs(neighbourPos.y - currentPos.y) == shift)
+					|| (abs(neighbourPos.x - currentPos.x) == shift && neighbourPos.y - currentPos.y == 0))
 					//|| (abs(checkedPos.x - currentPos.x) == shift && abs(checkedPos.y - currentPos.y) == shift)) // diagonal movement
 				{
-					if (notCheckedYet)
+					if (alreadyChecked == false)
 					{
-						openList.push_back(&(*Nodes)[i]);
-						closedList.push_back(&(*Nodes)[i]);
-					///	cout << "Pushed: " << (*Nodes)[i].getPosition().x << " " << (*Nodes)[i].getPosition().y;
+						openList.push_back(neighbourNode);
+						closedList.push_back(neighbourNode);
+						cout << "Pushed: " << neighbourPos.x << " " << neighbourPos.y;
 
 						closedList.back()->setParent(*currentNode);
 						
-					///	cout << "   PARENT -> " << closedList.back()->getParent()->getPosition().x << " " << closedList.back()->getParent()->getPosition().y << "\n";
+
+						cout << "   PARENT -> " << closedList.back()->getParent()->getPosition().x << " " << closedList.back()->getParent()->getPosition().y << "\n";
 
 						if (closedList.back()->getType() == Tile::getNormalTypeName())
 						{
@@ -92,25 +98,15 @@ void Algorithm::Run()
 					}
 				}
 			}
-	
+			//algorithmRunning();
 		}
-		algorithmRunning();
+		///checkIfAlgorithmIsRunning();
 	}
-
-	//cout << "Closed List: " << currentNode->getPosition().x << " " << currentNode->getPosition().y << " \n";
-	//for (int i = 0; i < openList.size(); i++)
-	//{
-	//	cout << "Numer: " << i << " " << openList[i]->getPosition().x << " " << openList[i]->getPosition().y << endl;
-	//}
-
-	//double delayTime = 0.0;
-
-	//while (delayTime < 10000.0) delayTime += dt;
 }
 
 void Algorithm::getPath()
 {
-	shortestPath.push_back(closedList.back());
+	shortestPath.push_back(currentNode);
 	
 	while (shortestPath.back()->getType() != Tile::getStartTypeName())
 	{
@@ -128,5 +124,5 @@ void Algorithm::getPath()
 		}
 	}
 
-	endOfAlgorithm = true;
+//	endOfAlgorithm = true;
 }
