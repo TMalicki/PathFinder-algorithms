@@ -2,30 +2,96 @@
 
 BFS::BFS(Map& originalMap) : map(&originalMap)
 {
+	//currentNode = new Tile;
+	//finishNode = new Tile;
+	//board = new vector<Tile>;
+	//map = new Map;
+
 	algorithmRunning = true;
-	board = &(map->getBoard());
+	/*auto*/ board = &(map->getBoard());
 
 	/// set up -> put startNode inside openList and closedList, get finishNode 
 	for (int i = 0; i < originalMap.getBoard().size(); i++)
 	{
-		if ((*board)[i].getType() == Tile::getStartTypeName())
+		if ((*board)[i]->getType() == Tile::getStartTypeName())
 		{
-			openList.push_back(&(*board)[i]);
+			openList.push_back((*board)[i]);
 		}
-		if (map->getBoard()[i].getType() == Tile::getFinishTypeName())
+		if (map->getBoard()[i]->getType() == Tile::getFinishTypeName())
 		{
-			finishNode = &(*board)[i];
+			finishNode = (*board)[i];
 		}
 	}
-	shift = (*board)[0].getSize().x;
+	shift = (*board)[0]->getSize().x;
 	closedList.push_back(openList.back());
 
 	//dt = clock.restart().asSeconds();
 	//dt = 0.0;
 }
+/*
+BFS::BFS(const BFS& cBFS)
+{
+	map = new Map;
+	*map = *(cBFS.map);
 
+	board = new vector<Tile>;
+	*board = *(cBFS.board);
+	
+	currentNode = new Tile;
+	*currentNode = *(cBFS.currentNode);
+
+	finishNode = new Tile;
+	*finishNode = *(cBFS.finishNode);
+
+	for (int i = 0; i < openList.size(); i++)
+	{
+		openList.push_back(cBFS.openList[i]);
+	}
+	
+	for (int i = 0; i < closedList.size(); i++)
+	{
+		closedList.push_back(cBFS.closedList[i]);
+	}
+
+	for (int i = 0; i < shortestPath.size(); i++)
+	{
+		shortestPath.push_back(cBFS.shortestPath[i]);
+	}
+}
+*/
+/*
+BFS& BFS::operator=(const BFS& aBFS)
+{
+	if (this != &aBFS)
+	{
+		map = aBFS.map;
+		board = aBFS.board;
+
+		openList = aBFS.openList;
+		closedList = aBFS.closedList;
+		shortestPath = aBFS.shortestPath;
+		currentNode = aBFS.currentNode;
+		finishNode = aBFS.finishNode;
+	}
+
+	return *this;
+}
+*/
+/*
 BFS::~BFS()
 {
+	delete map;
+	map = nullptr;
+
+	delete currentNode;
+	currentNode = nullptr;
+
+	delete finishNode;
+	finishNode = nullptr;
+
+	delete board;
+	board = nullptr;
+
 	for (int i = 0; i < openList.size(); i++)
 	{
 		delete openList[i];
@@ -41,16 +107,8 @@ BFS::~BFS()
 		delete shortestPath[i];
 		shortestPath[i] = nullptr;
 	}
-	delete currentNode;
-	currentNode = nullptr;
-	delete finishNode;
-	finishNode = nullptr;
-	delete board;
-	board = nullptr;
-	delete map;
-	map = nullptr;
 }
-
+*/
 void BFS::checkIfAlgorithmIsRunning()
 {
 	/// end algorithm if finishNode is achieved or there is nothing inside openList
@@ -86,8 +144,8 @@ void BFS::Run()
 			bool alreadyChecked = false;
 
 			auto neighbourNode = &(*board)[i];
-			auto neighbourType = (*board)[i].getType();
-			sf::Vector2f neighbourPos = (*board)[i].getPosition();
+			auto neighbourType = (*board)[i]->getType();
+			sf::Vector2f neighbourPos = (*board)[i]->getPosition();
 
 			if ((neighbourType == Tile::getNormalTypeName() || neighbourType == Tile::getFinishTypeName()))
 			{
@@ -108,8 +166,8 @@ void BFS::Run()
 				{
 					if (alreadyChecked == false)
 					{
-						openList.push_back(neighbourNode);
-						closedList.push_back(neighbourNode);
+						openList.push_back(*neighbourNode);
+						closedList.push_back(*neighbourNode);
 						//cout << "Pushed: " << neighbourPos.x << " " << neighbourPos.y;
 
 						closedList.back()->setParent(*currentNode);

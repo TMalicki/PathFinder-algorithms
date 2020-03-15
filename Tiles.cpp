@@ -1,4 +1,4 @@
-#include "Tiles.h"
+﻿#include "Tiles.h"
 
 const string Tile::obstacle = "obstacle";
 const string Tile::finish = "finish";
@@ -14,6 +14,51 @@ Tile::Tile(sf::Vector2f sideSize) : size(sideSize), thickness(-2.0f)
 	tile.setOrigin(tile.getSize().x / 2, tile.getSize().y / 2);
 
 	setNormalType();
+	parent = nullptr;
+}
+/// czy nie można tego zrobić szybciej?
+Tile::Tile(const Tile& cTile)
+{
+	size = cTile.size;
+	thickness = cTile.thickness;
+	type = cTile.type;
+
+	tile.setOutlineThickness(thickness);
+	tile.setSize(sf::Vector2f(size.x, size.y));
+	tile.setFillColor(sf::Color::White);
+	tile.setOutlineColor(sf::Color::Black);
+	tile.setOrigin(tile.getSize().x / 2, tile.getSize().y / 2);
+
+	if (cTile.parent == nullptr) parent = nullptr;
+	else parent = new Tile(*cTile.parent);
+
+	txtPosX = cTile.txtPosX;
+	txtPosY = cTile.txtPosY;
+	txtIteration = cTile.txtIteration;
+}
+
+Tile& Tile::operator=(const Tile& aTile)
+{
+	if (this != &aTile)
+	{
+		delete parent;
+		*parent = *aTile.parent;
+
+		size = aTile.size;
+		thickness = aTile.thickness;
+		type = aTile.type;
+
+		tile.setOutlineThickness(thickness);
+		tile.setSize(sf::Vector2f(size.x, size.y));
+		tile.setFillColor(sf::Color::White);
+		tile.setOutlineColor(sf::Color::Black);
+		tile.setOrigin(tile.getSize().x / 2, tile.getSize().y / 2);
+
+		txtPosX = aTile.txtPosX;
+		txtPosY = aTile.txtPosY;
+		txtIteration = aTile.txtIteration;
+	}
+	return *this;
 }
 
 void Tile::enablePositions(sf::Font& font)

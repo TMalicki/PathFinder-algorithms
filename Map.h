@@ -11,7 +11,7 @@ using namespace std;
 class Map
 {
 private:
-	vector<Tile> board;
+	vector<Tile*> board;
 	sf::Font font;
 	sf::Vector2i amountOfTiles;
 
@@ -19,9 +19,13 @@ private:
 	bool startTileExist;
 public:
 	Map(sf::Vector2i numberOfTiles = { 10, 10 }, sf::Vector2f sizeOfTiles = { 50.f, 50.f });
+	Map(const Map& cMap);
+	Map& operator=(const Map& aMap);
 
-	void setBoard(Tile& boardTile) { board.push_back(boardTile); }
-	vector<Tile>& getBoard() { return board; }
+	~Map();
+
+	void setBoard(Tile* boardTile) { board.push_back(boardTile); }
+	vector<Tile*>& getBoard() { return board; }
 
 	void deleteTile(sf::Vector2f);
 

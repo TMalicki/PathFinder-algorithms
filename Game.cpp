@@ -50,7 +50,7 @@ void Game::run()
 	
 		if (editor->isEditorRunning() == false && algorithm == nullptr)
 		{
-			algorithm = new BFS(*map); /// this should be executed only once
+			//algorithm = new BFS(*map); /// this should be executed only once
 			delayAlgorithm = 0.0;
 			timeAlgorithmCalculation = 0.0;
 		}
@@ -67,7 +67,7 @@ void Game::reload()
 	timeAlgorithmCalculation = 0.0;
 	timeShow = false;
 
-	///delete algorithm; /// is it needed? memory leak?
+	delete algorithm; /// is it needed? memory leak?
 	algorithm = nullptr;
 }
 
@@ -95,11 +95,11 @@ void Game::draw()
 	/// draw
 	for (int i = 0; i < map->getBoard().size(); i++)
 	{
-		window->draw(map->getBoard()[i].getTile());
+		window->draw(map->getBoard()[i]->getTile());
 		if (editor->isEditorRunning() == false)
 		{
-			window->draw(map->getBoard()[i].getPosX());
-			window->draw(map->getBoard()[i].getPosY());
+			window->draw(map->getBoard()[i]->getPosX());
+			window->draw(map->getBoard()[i]->getPosY());
 		}
 	}
 

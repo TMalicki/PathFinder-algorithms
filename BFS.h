@@ -19,10 +19,14 @@ private:
 
 	Tile* currentNode;
 	Tile* finishNode;
-	vector<Tile>* board;
+	vector<Tile*>* board;///
 public:
 	BFS(Map& originalMap);
-	~BFS();
+	//BFS(const BFS& cBFS);
+	//BFS& operator=(const BFS& aBFS);
+	
+	//~BFS();
+
 	vector<Tile*> getOpenList() { return openList; }
 	vector<Tile*> getClosedList() { return closedList; }
 

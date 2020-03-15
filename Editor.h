@@ -19,6 +19,10 @@ private:
 	Map* map;
 public:
 	Editor(Map* map);
+	Editor(const Editor& cMap);
+	Editor& operator=(const Editor& aMap);
+
+	~Editor();
 
 	void run(sf::RenderWindow* window, sf::Event& event, Map* map);
 	void update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile);
