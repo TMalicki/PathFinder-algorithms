@@ -29,9 +29,6 @@ Tile::Tile(const Tile& cTile)
 	tile.setOutlineColor(sf::Color::Black);
 	tile.setOrigin(tile.getSize().x / 2, tile.getSize().y / 2);
 
-	if (cTile.parent == nullptr) parent = nullptr;
-	else parent = new Tile(*cTile.parent);
-
 	txtPosX = cTile.txtPosX;
 	txtPosY = cTile.txtPosY;
 	txtIteration = cTile.txtIteration;
@@ -41,9 +38,6 @@ Tile& Tile::operator=(const Tile& aTile)
 {
 	if (this != &aTile)
 	{
-		delete parent;
-		*parent = *aTile.parent;
-
 		size = aTile.size;
 		thickness = aTile.thickness;
 		type = aTile.type;
@@ -63,12 +57,7 @@ Tile& Tile::operator=(const Tile& aTile)
 
 Tile::~Tile()
 {
-	if (parent != nullptr)
-	{
-		delete parent;
-		parent = nullptr;	
-		//parent = nullptr;
-	}
+
 }
 
 void Tile::enablePositions(sf::Font& font)

@@ -27,7 +27,7 @@ void Game::run()
 		{
 			delayAlgorithm += dt;
 			timeAlgorithmCalculation += dt;
-			if (delayAlgorithm > 0.1)
+			if (delayAlgorithm > 0.02)
 			{
 				algorithm->Run();
 				delayAlgorithm = 0.0;

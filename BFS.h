@@ -19,7 +19,7 @@ private:
 
 	Tile* currentNode;
 	Tile* finishNode;
-	//vector<Tile*>* board;///
+
 public:
 	BFS(Map& originalMap);
 	BFS(const BFS& cBFS);
