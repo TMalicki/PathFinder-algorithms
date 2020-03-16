@@ -50,7 +50,7 @@ void Game::run()
 	
 		if (editor->isEditorRunning() == false && algorithm == nullptr)
 		{
-			//algorithm = new BFS(*map); /// this should be executed only once
+			algorithm = new BFS(*map); /// this should be executed only once
 			delayAlgorithm = 0.0;
 			timeAlgorithmCalculation = 0.0;
 		}

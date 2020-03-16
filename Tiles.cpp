@@ -16,7 +16,7 @@ Tile::Tile(sf::Vector2f sideSize) : size(sideSize), thickness(-2.0f)
 	setNormalType();
 	parent = nullptr;
 }
-/// czy nie można tego zrobić szybciej?
+
 Tile::Tile(const Tile& cTile)
 {
 	size = cTile.size;
@@ -59,6 +59,16 @@ Tile& Tile::operator=(const Tile& aTile)
 		txtIteration = aTile.txtIteration;
 	}
 	return *this;
+}
+
+Tile::~Tile()
+{
+	if (parent != nullptr)
+	{
+		delete parent;
+		parent = nullptr;	
+		//parent = nullptr;
+	}
 }
 
 void Tile::enablePositions(sf::Font& font)

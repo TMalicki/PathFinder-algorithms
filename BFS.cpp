@@ -2,13 +2,8 @@
 
 BFS::BFS(Map& originalMap) : map(&originalMap)
 {
-	//currentNode = new Tile;
-	//finishNode = new Tile;
-	//board = new vector<Tile>;
-	//map = new Map;
-
 	algorithmRunning = true;
-	/*auto*/ board = &(map->getBoard());
+	auto board = &(map->getBoard());
 
 	/// set up -> put startNode inside openList and closedList, get finishNode 
 	for (int i = 0; i < originalMap.getBoard().size(); i++)
@@ -28,14 +23,14 @@ BFS::BFS(Map& originalMap) : map(&originalMap)
 	//dt = clock.restart().asSeconds();
 	//dt = 0.0;
 }
-/*
+
 BFS::BFS(const BFS& cBFS)
 {
 	map = new Map;
 	*map = *(cBFS.map);
 
-	board = new vector<Tile>;
-	*board = *(cBFS.board);
+	//board = new vector<Tile*>;
+	//*board = *(cBFS.board);
 	
 	currentNode = new Tile;
 	*currentNode = *(cBFS.currentNode);
@@ -57,27 +52,60 @@ BFS::BFS(const BFS& cBFS)
 	{
 		shortestPath.push_back(cBFS.shortestPath[i]);
 	}
+
+	shift = cBFS.shift;
+	algorithmRunning = cBFS.algorithmRunning;
 }
-*/
-/*
+
+
 BFS& BFS::operator=(const BFS& aBFS)
 {
 	if (this != &aBFS)
 	{
+		delete map;
+		map = nullptr;
+
+		delete currentNode;
+		currentNode = nullptr;
+
+		delete finishNode;
+		finishNode = nullptr;
+
+		//delete board;
+		//board = nullptr;
+
+		for (int i = 0; i < openList.size(); i++)
+		{
+			delete openList[i];
+			openList[i] = nullptr;
+		}
+		for (int i = 0; i < closedList.size(); i++)
+		{
+			delete closedList[i];
+			closedList[i] = nullptr;
+		}
+		for (int i = 0; i < shortestPath.size(); i++)
+		{
+			delete shortestPath[i];
+			shortestPath[i] = nullptr;
+		}
+
 		map = aBFS.map;
-		board = aBFS.board;
+		//board = aBFS.board;
 
 		openList = aBFS.openList;
 		closedList = aBFS.closedList;
 		shortestPath = aBFS.shortestPath;
 		currentNode = aBFS.currentNode;
 		finishNode = aBFS.finishNode;
-	}
 
+		shift = aBFS.shift;
+		algorithmRunning = aBFS.algorithmRunning;
+	}
 	return *this;
 }
-*/
-/*
+
+
 BFS::~BFS()
 {
 	delete map;
@@ -89,8 +117,8 @@ BFS::~BFS()
 	delete finishNode;
 	finishNode = nullptr;
 
-	delete board;
-	board = nullptr;
+	//delete board;
+	//board = nullptr;
 
 	for (int i = 0; i < openList.size(); i++)
 	{
@@ -108,7 +136,7 @@ BFS::~BFS()
 		shortestPath[i] = nullptr;
 	}
 }
-*/
+
 void BFS::checkIfAlgorithmIsRunning()
 {
 	/// end algorithm if finishNode is achieved or there is nothing inside openList
@@ -138,6 +166,8 @@ void BFS::Run()
 		}
 		//cout << "CURRENT POSITION: " << currentPos.x << " " << currentPos.y << "\n\n";
 
+		auto board = &map->getBoard();
+		
 		/// currentNode neighbours iterator
 		for (int i = 0; i < board->size() && algorithmRunning == true; i++)
 		{

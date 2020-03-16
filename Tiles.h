@@ -31,7 +31,7 @@ public:
 	Tile(const Tile& cTile);
 	Tile& operator=(const Tile& aTile);
 
-	~Tile() { delete parent; }
+	~Tile();
 
 	void setSize(sf::Vector2f size) { this->size = size; }
 	sf::Vector2f getSize() const { return this->size; }
