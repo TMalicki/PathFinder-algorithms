@@ -8,10 +8,13 @@
 class Algorithm
 {
 private:
-	BFS* BFS;
-
+	BFS* bfs;
+	Map* map;
 public:
-	Algorithm();
+	Algorithm(Map& map);
+
+	void run_BFS();
+
 	~Algorithm();
 };
 

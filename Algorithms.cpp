@@ -1,11 +1,19 @@
 #include "Algorithms.h"
+#include "Map.h"
+#include "BFS.h"
 
-Algorithm::Algorithm()
+Algorithm::Algorithm(Map& map)
 {
-	BFS = nullptr;
+	bfs = nullptr;
+	this->map = &map;
+}
+
+void Algorithm::run_BFS()
+{
+	bfs = new BFS(*map);
 }
 
 Algorithm::~Algorithm()
 {
-	delete BFS;
+	delete bfs;
 }

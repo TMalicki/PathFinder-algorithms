@@ -13,6 +13,7 @@ private:
 	sf::Vector2f size;
 	sf::RectangleShape tile;
 	float thickness;
+	float distance;
 
 	sf::Text txtPosX;
 	sf::Text txtPosY;
@@ -40,6 +41,8 @@ public:
 	sf::Vector2f getOrigin() { return tile.getOrigin(); }
 	sf::Vector2f getPosition() { return tile.getPosition(); }
 	void setColor(sf::Color color) { tile.setFillColor(color); }
+	void setDistance(float distance) { this->distance = distance; }
+	float getDistance() { return this->distance; }
 
 	void setNormalType() { type = normal; }
 	void setObstacleType() { type = obstacle; }

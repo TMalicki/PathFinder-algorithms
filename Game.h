@@ -5,7 +5,9 @@
 #include <SFML/Graphics.hpp>
 #include "Editor.h"
 #include "Map.h"
+#include "Algorithms.h"
 #include "BFS.h"
+#include "Greedy.h"
 
 class Game
 {
@@ -13,10 +15,10 @@ private:
 	sf::RenderWindow* window;
 	sf::Event event;
 
-	BFS* algorithm;
+	//BFS* algorithm;
+	Greedy* algorithm;
 	Editor* editor;
 	Map* map;
-
 
 	bool timeShow;
 	float dt; 
