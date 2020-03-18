@@ -15,8 +15,7 @@ private:
 	sf::RenderWindow* window;
 	sf::Event event;
 
-	//BFS* algorithm;
-	Greedy* algorithm;
+	Algorithm* algorithm;
 	Editor* editor;
 	Map* map;
 
@@ -33,9 +32,6 @@ public:
 
 	void update();
 	void draw();
-
-	///void holdButton();
-	///sf::Vector2f highlightTile();
 };
 
 #endif

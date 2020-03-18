@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Algorithm">
+      <UniqueIdentifier>{04df1a13-fce6-4393-999c-efb619f15216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Algorithm">
+      <UniqueIdentifier>{9b236f61-892c-492c-a8ae-b42bac6ae8b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,14 +36,14 @@
     <ClCompile Include="Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BFS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Algorithms.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="BFS.cpp">
+      <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Greedy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,14 +59,14 @@
     <ClInclude Include="Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BFS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Algorithms.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="BFS.h">
+      <Filter>Header Files\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="Greedy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@ Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles)
 	map = new Map(amountOfTiles, sizeOfTiles);
 	editor = new Editor(map);
 
-
 	dt = 0.0;
 	double delayAlgorithm = 0.0;
 	double timeAlgorithmCalculation = 0.0;
@@ -29,7 +28,7 @@ void Game::run()
 			timeAlgorithmCalculation += dt;
 			if (delayAlgorithm > 0.02)
 			{
-				algorithm->Run();
+				algorithm->run();
 				delayAlgorithm = 0.0;
 			}
 		}

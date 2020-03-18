@@ -4,41 +4,25 @@
 #include <iostream>
 #include "Map.h"
 
-class Greedy
+#include "Algorithms.h"
+
+class Greedy : public Algorithm
 {
 private:
 
-	Map* map;
-
-	int shift;					// distance from center of first node to second one
-	bool algorithmRunning;
-	float minDist;
-
-	vector<Tile*> openList;		//frontier
-	vector<Tile*> closedList;
-	vector<Tile*> shortestPath;
-
-	Tile* currentNode;
-	Tile* finishNode;
 public:
+	Greedy(Map& originalMap) : Algorithm(originalMap) {};
+	//Greedy(const Greedy& cGreedy);
+	//Greedy& operator=(const Greedy& aGreedy);
 
-	Greedy(Map& originalMap);
-	Greedy(const Greedy& cGreedy);
-	Greedy& operator=(const Greedy& aGreedy);
+	virtual ~Greedy() {};
 
-	~Greedy();
+	virtual void run();
 
-	vector<Tile*> getOpenList() { return openList; }
-	vector<Tile*> getClosedList() { return closedList; }
+	int findClosestToFinish();
 
-	void checkIfAlgorithmIsRunning();
-	bool isAlgorithmRunning() { return algorithmRunning; }
-	void setAlgorithmRunning(bool val) { algorithmRunning = val; }
-
-	void Run();
-
-	void getPath();
-
+	virtual void setNeighbourToOpenList(Tile*, Tile*, bool);
+	void getCurrentNodeByHeuristic();
 };
 
 #endif

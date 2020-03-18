@@ -3,40 +3,23 @@
 
 #include <iostream>
 #include "Map.h"
-#include "Tiles.h"
 
-class BFS
+#include "Algorithms.h"
+
+class BFS : public Algorithm
 {
 private:
-	Map* map;
-
-	int shift;					// distance from center of first node to second one
-	bool algorithmRunning;			
-
-	vector<Tile*> openList;		//frontier
-	vector<Tile*> closedList;
-	vector<Tile*> shortestPath;
-
-	Tile* currentNode;
-	Tile* finishNode;
-
-public:
-	BFS(Map& originalMap);
-	BFS(const BFS& cBFS);
-	BFS& operator=(const BFS& aBFS);
 	
-	~BFS();
+public:
+	BFS(Map& originalMap) : Algorithm(originalMap) {}
+	//BFS(const BFS& cBFS);
+	//BFS& operator=(const BFS& aBFS);
+	
+	virtual ~BFS() {};
 
-	vector<Tile*> getOpenList() { return openList; }
-	vector<Tile*> getClosedList() { return closedList; }
+	virtual void run();
 
-	void checkIfAlgorithmIsRunning();
-	bool isAlgorithmRunning() { return algorithmRunning; }
-	void setAlgorithmRunning(bool val) { algorithmRunning = val; }
-
-	void Run();
-
-	void getPath();
+	virtual void setNeighbourToOpenList(Tile*, Tile*, bool);
 };
 
 #endif
