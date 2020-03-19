@@ -5,8 +5,7 @@ void Greedy::run()
 	if (isAlgorithmRunning() == true)
 	{
 		int flagTemp = 0;
-
-		getCurrentNodeByHeuristic();
+		flagTemp = getCurrentNodeByHeuristic();
 
 		checkIfAlgorithmIsRunning();
 
@@ -42,20 +41,34 @@ void Greedy::run()
 	}
 }
 
-void Greedy::getCurrentNodeByHeuristic()
+int Greedy::getCurrentNodeByHeuristic()
 {
+	int flagTemp = 0;
 	if (getCurrentNode() == nullptr) setCurrentNode((getOpenList())[0]);
 	else
 	{
-		findClosestToFinish();
+		flagTemp = findClosestToFinish();
 	}
+	return flagTemp;
 }
 
 int Greedy::findClosestToFinish()
 {
+	int flagTemp = 0;
 	float minDist = 1000.0;
 	int counter = getOpenList().size();
 
+	for (int i = 0; i < getOpenList().size(); i++)
+	{
+		if (getOpenList()[i]->getDistance() < minDist)
+		{
+			setCurrentNode(getOpenList()[i]);
+			minDist = getOpenList()[i]->getDistance();
+			flagTemp = i;
+		}
+	}
+
+	/*
 	while (counter--)
 	{
 		Tile** TileFromOpenList = &getOpenList()[counter];
@@ -66,6 +79,8 @@ int Greedy::findClosestToFinish()
 		}
 	}
 	return counter;
+	*/
+	return flagTemp;
 }
 
 void Greedy::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool alreadyChecked)
@@ -79,8 +94,9 @@ void Greedy::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool
 	{
 		if (alreadyChecked == false)
 		{
-			///Manhattan distance on a square grid
-			float actualDistance = abs(neighbourPos.x - getFinishNode()->getPosition().x) + abs(neighbourPos.y - getFinishNode()->getPosition().y);
+			///Pitagoras distance on a square grid
+			//float actualDistance = abs(neighbourPos.x - getFinishNode()->getPosition().x) + abs(neighbourPos.y - getFinishNode()->getPosition().y);
+			float actualDistance = sqrt(pow(neighbourPos.x-getFinishNode()->getPosition().x,2) + pow(neighbourPos.y - getFinishNode()->getPosition().y,2));
 			neighbourNode->setDistance(actualDistance);
 
 			getOpenList().push_back(neighbourNode);
