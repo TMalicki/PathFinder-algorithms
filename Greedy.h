@@ -22,7 +22,7 @@ public:
 	int findClosestToFinish();
 
 	virtual void setNeighbourToOpenList(Tile*, Tile*, bool);
-	void getCurrentNodeByHeuristic();
+	int getCurrentNodeByHeuristic();
 };
 
 #endif

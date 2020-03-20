@@ -24,11 +24,13 @@ private:
 	sf::Clock clock;
 	double delayAlgorithm;
 	double timeAlgorithmCalculation;
+	int algorithmNumber;
 public:
 	Game(sf::Vector2i amountOfTiles = { 10,10 }, sf::Vector2f sizeOfTiles = { 50.0f, 50.0f });
 
 	void run();
 	void reload();
+	void chooseAlgorithm(int);
 
 	void update();
 	void draw();

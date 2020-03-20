@@ -10,6 +10,7 @@ Game::Game(sf::Vector2i amountOfTiles, sf::Vector2f sizeOfTiles)
 	double delayAlgorithm = 0.0;
 	double timeAlgorithmCalculation = 0.0;
 	timeShow = false;
+	algorithmNumber = 0;
 }
 
 void Game::run()
@@ -49,7 +50,7 @@ void Game::run()
 	
 		if (editor->isEditorRunning() == false && algorithm == nullptr)
 		{
-			algorithm = new Greedy(*map); /// this should be executed only once
+			chooseAlgorithm(algorithmNumber);
 			//algorithm = new BFS(*map);
 			delayAlgorithm = 0.0;
 			timeAlgorithmCalculation = 0.0;
@@ -71,6 +72,35 @@ void Game::reload()
 	algorithm = nullptr;
 }
 
+void Game::chooseAlgorithm(int algorithmNumber)
+{
+	switch (algorithmNumber)
+	{
+		case 0:
+		{
+			if (algorithm != nullptr)
+			{
+				delete algorithm;
+				algorithm = nullptr;
+			}
+			cout << "\nBFS\n";
+			algorithm = new BFS(*map);
+		}
+		break;
+		case 1:
+		{
+			if (algorithm != nullptr)
+			{
+				delete algorithm;
+				algorithm = nullptr;
+			}
+			cout << "\nGreedy\n";
+			algorithm = new Greedy(*map);
+		}
+		break;
+	}
+}
+
 void Game::update()
 {
 	while (window->pollEvent(event))
@@ -84,6 +114,30 @@ void Game::update()
 			{
 				reload();
 			}
+		}
+		if (event.type == sf::Event::MouseWheelMoved)
+		{
+			int mouseDelta = event.mouseWheel.delta;
+			if (mouseDelta > 0)
+			{
+				algorithmNumber += 1;
+			}
+			else if(mouseDelta < 0)
+			{
+				algorithmNumber -= 1;
+			}
+
+			if (algorithmNumber > 1)
+			{
+				algorithmNumber = 0;
+			}
+			else if (algorithmNumber < 0)
+			{
+				algorithmNumber = 1;
+			}
+
+			if (algorithmNumber == 0) cout << "\nBFS\n";
+			else if (algorithmNumber == 1) cout << "\nGreedy\n";
 		}
 	}
 }
