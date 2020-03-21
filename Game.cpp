@@ -102,12 +102,22 @@ void Game::chooseAlgorithm(int algorithmNumber)
 			algorithm = new Greedy(*map);
 		}
 		break;
+		case 2:
+		{
+			if (algorithm != nullptr)
+			{
+				delete algorithm;
+				algorithm = nullptr;
+			}
+			cout << "\nA*\n";
+			algorithm = new A_Star(*map);
+		}
 	}
 }
 
 void Game::update()
 {
-	holdButton();	// check if left button is being pushed for a while
+	holdButton();	
 
 	while (window->pollEvent(event))
 	{
@@ -158,17 +168,18 @@ void Game::update()
 				algorithmNumber -= 1;
 			}
 
-			if (algorithmNumber > 1)
+			if (algorithmNumber > 2)
 			{
 				algorithmNumber = 0;
 			}
 			else if (algorithmNumber < 0)
 			{
-				algorithmNumber = 1;
+				algorithmNumber = 2;
 			}
 
 			if (algorithmNumber == 0) cout << "\nBFS\n";
 			else if (algorithmNumber == 1) cout << "\nGreedy\n";
+			else if (algorithmNumber == 2) cout << "\nA*\n";
 		}
 	}
 }

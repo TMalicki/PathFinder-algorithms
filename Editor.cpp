@@ -4,10 +4,6 @@ Editor::Editor(Map* map)
 {
 	this->map = map;
 	editorRunning = true;
-//	isKeyPressed = false;
-
-//	dt = 0.0;
-//	holdMouseButton = 0.0;
 }
 
 Editor::Editor(const Editor& cMap)
@@ -15,11 +11,8 @@ Editor::Editor(const Editor& cMap)
 	this->map = new Map(*cMap.map);
 
 	editorRunning = true;
-//	isKeyPressed = false;
 
 	holdMouseButton = cMap.holdMouseButton;
-//	dt = cMap.dt;
-
 }
 
 Editor& Editor::operator=(const Editor& aMap)
@@ -30,10 +23,8 @@ Editor& Editor::operator=(const Editor& aMap)
 		*this->map = *aMap.map;
 
 		editorRunning = true;
-//		isKeyPressed = false;
 
 		holdMouseButton = aMap.holdMouseButton;
-//		dt = aMap.dt;
 	}
 	return *this;
 }
@@ -45,71 +36,12 @@ Editor::~Editor()
 
 sf::Vector2f Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map, float holdMouseButton)
 {
-//	dt = clock.restart().asSeconds();
 	this->holdMouseButton = holdMouseButton;
 
 	sf::Vector2f chosenTile = chooseTile(window, map);
 	return chosenTile;
 }
-/*
-void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile)
-{
-	holdButton();	// check if left button is being pushed for a while
-	while (window->pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window->close();
 
-		if (event.type == sf::Event::KeyPressed)
-		{
-			if (event.key.code == sf::Keyboard::Enter)
-			{
-				editorRunning = false;
-			}
-			if (event.key.code == sf::Keyboard::Escape)
-			{
-				window->close();
-			}
-		}
-
-		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-		{
-			isKeyPressed = true;
-		}
-
-		if (event.type == sf::Event::MouseButtonReleased)
-		{
-			isKeyPressed = false;
-			if (event.mouseButton.button == sf::Mouse::Left && editorRunning == true)
-			{
-				if (map->getFinishTileExistance() == false) map->setFinishTile(chosenTile);
-				else if (map->getStartTileExistance() == false) map->setStartTile(chosenTile);
-				else map->setObstacleTiles(chosenTile);		
-			}
-
-			if (event.mouseButton.button == sf::Mouse::Right && editorRunning == true)
-			{
-				map->deleteTile(chosenTile);
-			}
-		}
-	}
-
-	if (holdMouseButton >= 1.5 && map->getStartTileExistance() == true)
-	{
-		map->setObstacleTiles(chosenTile);
-	}
-}
-*/
-/*
-void Editor::holdButton()
-{
-	if (isKeyPressed)
-	{
-		holdMouseButton += dt;
-	}
-	else holdMouseButton = 0.0;
-}
-*/
 sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);

@@ -45,6 +45,9 @@
     <ClCompile Include="Greedy.cpp">
       <Filter>Source Files\Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="A_Star.cpp">
+      <Filter>Source Files\Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="Greedy.h">
+      <Filter>Header Files\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="A_Star.h">
       <Filter>Header Files\Algorithm</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,11 +1,16 @@
-﻿#include "Greedy.h"
+#include "A_Star.h"
 
-void Greedy::run()
+A_Star::A_Star(Map& originalMap) : Algorithm(originalMap), startingNodePosition(getStartingNode()->getPosition())
+{
+
+}
+
+void A_Star::run()
 {
 	if (isAlgorithmRunning() == true)
 	{
 		int flagTemp = 0;
-		flagTemp = getCurrentNodeByHeuristic();
+		flagTemp = getCurrentNodeByFCost();
 
 		checkIfAlgorithmIsRunning();
 
@@ -20,7 +25,7 @@ void Greedy::run()
 		{
 			currentNode->getTile().setFillColor(sf::Color(173, 166, 164, 255));
 		}
-		
+
 		auto board = &(getMap()->getBoard());
 
 		/// currentNode neighbours iterator
@@ -34,14 +39,14 @@ void Greedy::run()
 			if ((neighbourType == Tile::getNormalTypeName() || neighbourType == Tile::getFinishTypeName()))
 			{
 				/// check if checking position is not already inside closedList (alreadyChecked)
-				alreadyChecked = isNeighbourInsideClosedList(neighbourPos,alreadyChecked);
+				alreadyChecked = isNeighbourInsideClosedList(neighbourPos, alreadyChecked);
 				setNeighbourToOpenList(neighbourNode, currentNode, alreadyChecked);
 			}
 		}
 	}
 }
 
-int Greedy::getCurrentNodeByHeuristic()
+int A_Star::getCurrentNodeByFCost()
 {
 	int flagTemp = 0;
 	if (getCurrentNode() == nullptr) setCurrentNode((getOpenList())[0]);
@@ -52,25 +57,40 @@ int Greedy::getCurrentNodeByHeuristic()
 	return flagTemp;
 }
 
-int Greedy::findClosestToFinish()
+int A_Star::findClosestToFinish()
 {
 	int flagTemp = 0;
-	float minDist = 1000.0;
+	//float fCost = getCurrentNode()->getFCost();
+	//float hCost = getCurrentNode()->getHCost();
+
+	float fCost = 100000.0;
+	float hCost = 100000.0;
 
 	for (int i = 0; i < getOpenList().size(); i++)
 	{
-		if (getOpenList()[i]->getHCost() < minDist)
+		if (getOpenList()[i]->getFCost() < fCost)
 		{
 			setCurrentNode(getOpenList()[i]);
-			minDist = getOpenList()[i]->getHCost();
+			fCost = getOpenList()[i]->getFCost();
+			hCost = getOpenList()[i]->getHCost();
 			flagTemp = i;
+		}
+		else if (getOpenList()[i]->getFCost() == fCost)
+		{
+			if (getOpenList()[i]->getHCost() < fCost)
+			{
+				setCurrentNode(getOpenList()[i]);
+				fCost = getOpenList()[i]->getFCost();
+				hCost = getOpenList()[i]->getHCost();
+				flagTemp = i;
+			}
 		}
 	}
 
 	return flagTemp;
 }
 
-void Greedy::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool alreadyChecked)
+void A_Star::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool alreadyChecked)
 {
 	sf::Vector2f currentPos = currentNode->getPosition();
 	sf::Vector2f neighbourPos = neighbourNode->getPosition();
@@ -81,10 +101,15 @@ void Greedy::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool
 	{
 		if (alreadyChecked == false)
 		{
-			///Pitagoras distance on a square grid
-			//float actualDistance = abs(neighbourPos.x - getFinishNode()->getPosition().x) + abs(neighbourPos.y - getFinishNode()->getPosition().y);
-			float hCost = sqrt(pow(neighbourPos.x-getFinishNode()->getPosition().x,2) + pow(neighbourPos.y - getFinishNode()->getPosition().y,2));
+			///Pitagoras distance on a square grid - hCost
+			float hCost = sqrt(pow(neighbourPos.x - getFinishNode()->getPosition().x, 2) + pow(neighbourPos.y - getFinishNode()->getPosition().y, 2));
+
 			neighbourNode->setHCost(hCost);
+
+			// set g cost
+			float gCost = abs(startingNodePosition.x - neighbourPos.x) + abs(startingNodePosition.y - neighbourPos.y);
+
+			neighbourNode->setGCost(gCost);
 
 			getOpenList().push_back(neighbourNode);
 			getClosedList().push_back(neighbourNode);
@@ -98,4 +123,3 @@ void Greedy::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool
 		}
 	}
 }
-

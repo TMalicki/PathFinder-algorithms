@@ -13,7 +13,8 @@ private:
 	sf::Vector2f size;
 	sf::RectangleShape tile;
 	float thickness;
-	float distance;
+	float gCost;
+	float hCost;	// distance
 
 	sf::Text txtPosX;
 	sf::Text txtPosY;
@@ -41,8 +42,12 @@ public:
 	sf::Vector2f getOrigin() { return tile.getOrigin(); }
 	sf::Vector2f getPosition() { return tile.getPosition(); }
 	void setColor(sf::Color color) { tile.setFillColor(color); }
-	void setDistance(float distance) { this->distance = distance; }
-	float getDistance() { return this->distance; }
+	void setHCost(float hCost) { this->hCost = hCost; }
+	float getHCost() { return this->hCost; }
+	void setGCost(float gCost) { this->gCost = gCost; }
+	float getGCost() { return this->gCost; }
+
+	float getFCost() { return gCost + hCost; }
 
 	void setNormalType() { type = normal; }
 	void setObstacleType() { type = obstacle; }

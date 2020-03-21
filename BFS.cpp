@@ -48,7 +48,7 @@ void BFS::setNeighbourToOpenList(Tile* neighbourNode, Tile* currentNode, bool al
 
 	if ((neighbourPos.x - currentPos.x == 0 && abs(neighbourPos.y - currentPos.y) == getShift())
 		|| (abs(neighbourPos.x - currentPos.x) == getShift() && neighbourPos.y - currentPos.y == 0))
-		//|| (abs(checkedPos.x - currentPos.x) == shift && abs(checkedPos.y - currentPos.y) == shift)) // diagonal movement
+		//|| (abs(neighbourPos.x - currentPos.x) == getShift() && abs(neighbourPos.y - currentPos.y) == getShift())) // diagonal movement
 	{
 		if (alreadyChecked == false)
 		{

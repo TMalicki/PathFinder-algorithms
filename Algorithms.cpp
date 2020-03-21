@@ -17,6 +17,10 @@ Algorithm::Algorithm(Map& originalMap) : map(&originalMap)
 		{
 			finishNode = (*board)[i];
 		}
+		if (map->getBoard()[i]->getType() == Tile::getStartTypeName())
+		{
+			startingNode = (*board)[i];
+		}
 	}
 	shift = (*board)[0]->getSize().x;
 	closedList.push_back(openList.back());
@@ -82,11 +86,6 @@ Algorithm& Algorithm::operator=(const Algorithm* aAlgorithm)
 		algorithmRunning = aAlgorithm->algorithmRunning;
 	}
 	return *this;
-}
-
-void Algorithm::run_BFS()
-{
-	//bfs = new BFS(*map);
 }
 
 Algorithm::~Algorithm()

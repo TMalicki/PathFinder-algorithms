@@ -18,7 +18,7 @@ private:
 
 	Tile* currentNode;
 	Tile* finishNode;
-
+	Tile* startingNode;
 public:
 	Algorithm(Map& originalMap);
 	Algorithm(const Algorithm* cAlgorithm);
@@ -32,6 +32,7 @@ public:
 	Tile* getCurrentNode() { return currentNode; }
 	void setCurrentNode(Tile* currentNode) { this->currentNode = currentNode; }
 	Tile* getFinishNode() { return finishNode; }
+	Tile* getStartingNode() { return startingNode; }
 	Map* getMap() { return map; }
 
 	bool isAlgorithmRunning() { return algorithmRunning; }
@@ -40,7 +41,6 @@ public:
 	bool isNeighbourInsideClosedList(sf::Vector2f, bool&);
 
 	void getPath();
-	void run_BFS();
 
 	virtual void setNeighbourToOpenList(Tile*, Tile*, bool) = 0;
 	virtual void run() = 0;

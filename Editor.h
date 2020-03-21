@@ -9,12 +9,7 @@ class Editor
 {
 private:
 	bool editorRunning;
-
-//	float dt;
-//	sf::Clock clock;
-
 	float holdMouseButton;
-//	bool isKeyPressed;
 
 	Map* map;
 public:

@@ -8,6 +8,7 @@
 #include "Algorithms.h"
 #include "BFS.h"
 #include "Greedy.h"
+#include "A_Star.h"
 
 class Game
 {

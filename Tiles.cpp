@@ -16,7 +16,8 @@ Tile::Tile(sf::Vector2f sideSize) : size(sideSize), thickness(-2.0f)
 	setNormalType();
 	parent = nullptr;
 
-	distance = 0.0;
+	gCost = 0.0;
+	hCost = 0.0;
 }
 
 Tile::Tile(const Tile& cTile)
@@ -24,7 +25,8 @@ Tile::Tile(const Tile& cTile)
 	size = cTile.size;
 	thickness = cTile.thickness;
 	type = cTile.type;
-	distance = cTile.distance;
+	gCost = cTile.gCost;
+	hCost = cTile.hCost;
 
 	tile.setOutlineThickness(thickness);
 	tile.setSize(sf::Vector2f(size.x, size.y));
@@ -44,7 +46,8 @@ Tile& Tile::operator=(const Tile& aTile)
 		size = aTile.size;
 		thickness = aTile.thickness;
 		type = aTile.type;
-		distance = aTile.distance;
+		gCost = aTile.gCost;
+		hCost = aTile.hCost;
 
 		tile.setOutlineThickness(thickness);
 		tile.setSize(sf::Vector2f(size.x, size.y));
