@@ -21,41 +21,45 @@ void Game::run()
 
 		if (editor->isEditorRunning())
 		{
-			editor->run(window, event, map);
+			chosenTile = editor->run(window, event, map, holdMouseButton);
 		}
-		else if(editor->isEditorRunning() == false && algorithm != nullptr && algorithm->isAlgorithmRunning() == true)
+		else
 		{
-			delayAlgorithm += dt;
-			timeAlgorithmCalculation += dt;
-			if (delayAlgorithm > 0.02)
+			if (algorithm == nullptr)
 			{
-				algorithm->run();
-				delayAlgorithm = 0.0;
-			}
-		}
-
-		else if (algorithm->isAlgorithmRunning() == false && editor->isEditorRunning() == false )
-		{
-			algorithm->getPath();
-
-			if (timeShow == false)
-			{
-				cout << "Time: " << timeAlgorithmCalculation << endl;
+				chooseAlgorithm(algorithmNumber);
 				delayAlgorithm = 0.0;
 				timeAlgorithmCalculation = 0.0;
-				timeShow = true;
 			}
-			update();
-		}
-	
-		if (editor->isEditorRunning() == false && algorithm == nullptr)
-		{
-			chooseAlgorithm(algorithmNumber);
-			//algorithm = new BFS(*map);
-			delayAlgorithm = 0.0;
-			timeAlgorithmCalculation = 0.0;
-		}
+			else
+			{
+				if (algorithm->isAlgorithmRunning() == true)
+				{
+					delayAlgorithm += dt;
+					timeAlgorithmCalculation += dt;
+					if (delayAlgorithm > 0.02)
+					{
+						algorithm->run();
+						delayAlgorithm = 0.0;
+					}
+				}
+				else
+				{
+					algorithm->getPath();
+
+					if (timeShow == false)
+					{
+						cout << "Time: " << timeAlgorithmCalculation << endl;
+						delayAlgorithm = 0.0;
+						timeAlgorithmCalculation = 0.0;
+						timeShow = true;
+					}
+				}
+			}
+		}	
+
 		draw();
+		update(); 
 	}
 }
 
@@ -68,7 +72,7 @@ void Game::reload()
 	timeAlgorithmCalculation = 0.0;
 	timeShow = false;
 
-	delete algorithm; /// is it needed? memory leak?
+	delete algorithm; 
 	algorithm = nullptr;
 }
 
@@ -103,6 +107,8 @@ void Game::chooseAlgorithm(int algorithmNumber)
 
 void Game::update()
 {
+	holdButton();	// check if left button is being pushed for a while
+
 	while (window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
@@ -114,7 +120,32 @@ void Game::update()
 			{
 				reload();
 			}
+			if (event.key.code == sf::Keyboard::Enter)
+			{
+				editor->setEditorRunning(false);
+			}
 		}
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+		{
+			isKeyPressed = true;
+		}
+
+		if (event.type == sf::Event::MouseButtonReleased)
+		{
+			isKeyPressed = false;
+			if (event.mouseButton.button == sf::Mouse::Left && editor->isEditorRunning() == true)
+			{
+				if (map->getFinishTileExistance() == false) map->setFinishTile(chosenTile);
+				else if (map->getStartTileExistance() == false) map->setStartTile(chosenTile);
+				else map->setObstacleTiles(chosenTile);
+			}
+
+			if (event.mouseButton.button == sf::Mouse::Right && editor->isEditorRunning() == true)
+			{
+				map->deleteTile(chosenTile);
+			}
+		}
+
 		if (event.type == sf::Event::MouseWheelMoved)
 		{
 			int mouseDelta = event.mouseWheel.delta;
@@ -157,11 +188,15 @@ void Game::draw()
 		}
 	}
 
-	//for (int i = 0; i < algorithm->getOpenList().size(); i++)
-	//{
-	//	window->draw(algorithm->getOpenList()[i]->getTile());
-	//}
-
 	window->display();
 }
 
+void Game::holdButton()
+{
+	if (isKeyPressed)
+	{
+		holdMouseButton += dt;
+		cout << holdMouseButton << endl;
+	}
+	else holdMouseButton = 0.0;
+}

@@ -4,10 +4,10 @@ Editor::Editor(Map* map)
 {
 	this->map = map;
 	editorRunning = true;
-	isKeyPressed = false;
+//	isKeyPressed = false;
 
-	dt = 0.0;
-	holdMouseButton = 0.0;
+//	dt = 0.0;
+//	holdMouseButton = 0.0;
 }
 
 Editor::Editor(const Editor& cMap)
@@ -15,10 +15,10 @@ Editor::Editor(const Editor& cMap)
 	this->map = new Map(*cMap.map);
 
 	editorRunning = true;
-	isKeyPressed = false;
+//	isKeyPressed = false;
 
-	holdMouseButton = cMap.holdMouseButton;
-	dt = cMap.dt;
+//	holdMouseButton = cMap.holdMouseButton;
+//	dt = cMap.dt;
 
 }
 
@@ -30,10 +30,10 @@ Editor& Editor::operator=(const Editor& aMap)
 		*this->map = *aMap.map;
 
 		editorRunning = true;
-		isKeyPressed = false;
+//		isKeyPressed = false;
 
-		holdMouseButton = aMap.holdMouseButton;
-		dt = aMap.dt;
+//		holdMouseButton = aMap.holdMouseButton;
+//		dt = aMap.dt;
 	}
 	return *this;
 }
@@ -43,14 +43,14 @@ Editor::~Editor()
 	delete map;
 }
 
-void Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map)
+sf::Vector2f Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map, float holdMouseButton)
 {
-	dt = clock.restart().asSeconds();
+//	dt = clock.restart().asSeconds();
 
-	sf::Vector2f chosenTile = chooseTile(window, map);
-	update(window, event, map, chosenTile);
+	sf::Vector2f chosenTile = chooseTile(window, map, holdMouseButton);
+	return chosenTile;
 }
-
+/*
 void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Vector2f chosenTile)
 {
 	holdButton();	// check if left button is being pushed for a while
@@ -98,7 +98,8 @@ void Editor::update(sf::RenderWindow* window, sf::Event& event, Map* map, sf::Ve
 		map->setObstacleTiles(chosenTile);
 	}
 }
-
+*/
+/*
 void Editor::holdButton()
 {
 	if (isKeyPressed)
@@ -107,8 +108,8 @@ void Editor::holdButton()
 	}
 	else holdMouseButton = 0.0;
 }
-
-sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map)
+*/
+sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map, float holdMouseButton)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile*>& board = (map->getBoard());
