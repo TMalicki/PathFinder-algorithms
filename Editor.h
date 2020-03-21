@@ -13,7 +13,7 @@ private:
 //	float dt;
 //	sf::Clock clock;
 
-//	float holdMouseButton;
+	float holdMouseButton;
 //	bool isKeyPressed;
 
 	Map* map;
@@ -29,7 +29,7 @@ public:
 	bool isEditorRunning() { return editorRunning; }
 	void setEditorRunning(bool val) { editorRunning = val; }
 
-	sf::Vector2f chooseTile(sf::RenderWindow* window, Map* map, float holdMouseButton);
+	sf::Vector2f chooseTile(sf::RenderWindow* window, Map* map);
 };
 
 #endif

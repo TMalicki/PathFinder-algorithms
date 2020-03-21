@@ -17,7 +17,7 @@ Editor::Editor(const Editor& cMap)
 	editorRunning = true;
 //	isKeyPressed = false;
 
-//	holdMouseButton = cMap.holdMouseButton;
+	holdMouseButton = cMap.holdMouseButton;
 //	dt = cMap.dt;
 
 }
@@ -32,7 +32,7 @@ Editor& Editor::operator=(const Editor& aMap)
 		editorRunning = true;
 //		isKeyPressed = false;
 
-//		holdMouseButton = aMap.holdMouseButton;
+		holdMouseButton = aMap.holdMouseButton;
 //		dt = aMap.dt;
 	}
 	return *this;
@@ -46,8 +46,9 @@ Editor::~Editor()
 sf::Vector2f Editor::run(sf::RenderWindow* window, sf::Event& event, Map* map, float holdMouseButton)
 {
 //	dt = clock.restart().asSeconds();
+	this->holdMouseButton = holdMouseButton;
 
-	sf::Vector2f chosenTile = chooseTile(window, map, holdMouseButton);
+	sf::Vector2f chosenTile = chooseTile(window, map);
 	return chosenTile;
 }
 /*
@@ -109,7 +110,7 @@ void Editor::holdButton()
 	else holdMouseButton = 0.0;
 }
 */
-sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map, float holdMouseButton)
+sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
 	std::vector<Tile*>& board = (map->getBoard());
@@ -130,7 +131,19 @@ sf::Vector2f Editor::chooseTile(sf::RenderWindow* window, Map* map, float holdMo
 			chosenTile = (board)[boardCounter]->getTile().getPosition();
 
 			/// building up color changing while holding mouse button
-			if (holdMouseButton > 0.6 && map->getStartTileExistance() && (180 * holdMouseButton) / 1.0 < 255) (board)[boardCounter]->getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.0)));
+			if (holdMouseButton > 0.6 && map->getStartTileExistance())
+			{
+				if (((180 * holdMouseButton) / 1.0) < 255)
+				{
+					(board)[boardCounter]->getTile().setFillColor(sf::Color(0, 0, 0, ((180 * holdMouseButton) / 1.0))); /// set obstacle tile?
+				}
+				else
+				{
+					(board)[boardCounter]->getTile().setFillColor(sf::Color::Black);
+				}
+
+				(board)[boardCounter]->setObstacleType();
+			}
 		}
 		
 		else if(board[boardCounter]->getType() == Tile::getNormalTypeName())
