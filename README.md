@@ -1,14 +1,14 @@
 # PathFinder-algorithms
 
-For now **working**:
-- editor
+**Functionalities**:
+- 2D editor for pathfinder
 - breadth first search algorithm
 - greedy algorithm 
 
 ToDo:
-- virtual class **algorithm** with all algorithms
-- option to choose algorithms during working program
 - *compare* algorithms options with two algorithms working in the same time
+- A* algorithm
 
 ToFix:
 - optimize code
+- display changes
