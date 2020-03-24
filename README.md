@@ -12,7 +12,7 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - gray - nodes in closedList (already visited)
 - blue - best path
 
-*control*
+**control**
 - left mouse button - for add node on board (respectively - *finish node*, *start node*, obstacles nodes*), hold it while putting obstacle nodes for possibility of "drawing" on board (multi selection mode)
 - right mouse button - for delete any node
 - scroll mouse button - for choosing between algorithms
