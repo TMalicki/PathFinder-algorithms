@@ -12,7 +12,7 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - gray - nodes in closedList (already visited)
 - blue - best path
 
-**control**
+**Control**
 - left mouse button - for add node on board (respectively - *finish node*, *start node*, obstacles nodes*), hold it while putting obstacle nodes for possibility of "drawing" on board (multi selection mode)
 - right mouse button - for delete any node
 - scroll mouse button - for choosing between algorithms
@@ -25,10 +25,10 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - greedy algorithm 
 - A* algorithm - possibility that it's not working well with diagonal movement (fCost not updated for closedVector Tile)
 
-ToDo:
+**ToDo**
 - *compare* algorithms options with two algorithms working in the same time
 
-ToFix:
+**ToFix**
 - optimize code
 - display changes
 
