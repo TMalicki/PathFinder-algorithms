@@ -1,5 +1,24 @@
 # PathFinder-algorithms
 
+**Description**
+This program shows working algorithms (for now: Breadth First Search, Greedy, A*). It allows to create board inside editor mode, and than run any of available algorithms. Console window shows what algorithm will be executed and after it ends time is given.
+
+**Instruction**
+*color of nodes meaning*
+- green - starting node
+- red - finish node
+- black - obstacle nodes
+- violet - nodes in openList (not visited yet)
+- gray - nodes in closedList (already visited)
+- blue - best path
+
+*control*
+- left mouse button - for add node on board (respectively - *finish node*, *start node*, obstacles nodes*), hold it while putting obstacle nodes for possibility of "drawing" on board (multi selection mode)
+- right mouse button - for delete any node
+- scroll mouse button - for choosing between algorithms
+- E key - for return to edit mode after executed algorithm
+- enter - to run algorithm
+
 **Functionalities**:
 - 2D editor for pathfinder
 - breadth first search algorithm
