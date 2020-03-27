@@ -32,19 +32,20 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - optimize code
 - display changes
 
-<div class="content-center">
-  <div style="float: left;" id="cc-profile-image"><img src="images/Greedy 1.png" alt="Image" width="200" height="200"/> </a>
-    <div style="float: left;" id="cc-profile-image"><img src="images/BFS 1.png" alt="Image" width="200" height="200"/> </a>
-      <div id="cc-profile-image"><img src="images/A_star 1.png" alt="Image" width="200" height="200"/></a>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="content-center">
-  <div style="float: left;" id="cc-profile-image"><img src="images/Greedy 2.png" alt="Image" width="200" height="200"/> </a>
-    <div style="float: left;" id="cc-profile-image"><img src="images/BFS 2.png" alt="Image" width="200" height="200"/></a>
-      <div id="cc-profile-image"><img src="images/A_star 2.png" alt="Image" width="200" height="200"/></a>
-      </div>
-    </div>
-  </div>
-</div>
+
+<p float="left">
+       <img src="images/MTV1.png" alt="Image" width="300"/> </div>     
+       <img src="images/MTV2.png" alt="Image" width="300"/></div>      
+</p>
+
+
+  <p float="left">
+  <img src="images/Greedy 1.png" alt="Image" width="200"/></div>
+  <img src="images/BFS 1.png" alt="Image" width="200"/> </div>
+  <img src="images/A_star 1.png" alt="Image" width="200"/></div>
+  </p>
+  <p float="left">
+  <img src="images/Greedy 2.png" alt="Image" width="200"/>  </div>
+  <img src="images/BFS 2.png" alt="Image" width="200"/>  </div>
+  <img src="images/A_star 2.png" alt="Image" width="200"/>  </div>
+  </p>
