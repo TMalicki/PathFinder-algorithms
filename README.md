@@ -33,14 +33,14 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - display changes
 
   <p float="left">
-  <img src="images/Greedy 1.png" alt="Image" width="300"/></div>
-  <img src="images/BFS 1.png" alt="Image" width="300"/> </div>
-  <img src="images/A_star 1.png" alt="Image" width="300"/></div>
+  <img src="images/Greedy 1.png" alt="Image" width="250"/></div>
+  <img src="images/BFS 1.png" alt="Image" width="250"/> </div>
+  <img src="images/A_star 1.png" alt="Image" width="250"/></div>
   </p>
   <br>
   <br>
   <p float="left">
-  <img src="images/Greedy 2.png" alt="Image" width="300"/>  </div>
-  <img src="images/BFS 2.png" alt="Image" width="300"/>  </div>
-  <img src="images/A_star 2.png" alt="Image" width="300"/>  </div>
+  <img src="images/Greedy 2.png" alt="Image" width="250"/>  </div>
+  <img src="images/BFS 2.png" alt="Image" width="250"/>  </div>
+  <img src="images/A_star 2.png" alt="Image" width="250"/>  </div>
   </p>
