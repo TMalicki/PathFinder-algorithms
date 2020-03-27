@@ -3,6 +3,10 @@
 **Description**
 This program shows working algorithms (for now: Breadth First Search, Greedy, A*). It allows to create board inside editor mode, and than run any of available algorithms. Console window shows what algorithm will be executed and after it ends time is given.
 
+<p float="left">
+  <img src="images/pathFinder1.png" alt="Image" width="400"/></div>
+  </p>
+
 **Instruction**
 *color of nodes meaning*
 - green - starting node
