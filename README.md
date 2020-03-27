@@ -29,7 +29,7 @@ This program shows working algorithms (for now: Breadth First Search, Greedy, A*
 - *compare* algorithms options with two algorithms working in the same time
 
 **ToFix**
-- optimize code
+- optimize code - ** add another container for nodes**
 - some display changes
 
   <p float="left">
